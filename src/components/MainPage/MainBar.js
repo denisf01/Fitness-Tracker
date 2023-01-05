@@ -35,11 +35,11 @@ function MainBar() {
 
   const logoClickHandler = (event) => {
     event.preventDefault();
-    history.replace('/');
+    history.replace("/");
   };
   const singInHandler = () => {
-      history.replace('/login');
-  }
+    history.replace("/login");
+  };
 
   return (
     <AppBar position="fixed">
@@ -58,7 +58,7 @@ function MainBar() {
               display: { xs: "none", md: "flex" },
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              letterSpacing: ".1rem",
               color: "inherit",
               textDecoration: "none",
             }}
@@ -104,6 +104,7 @@ function MainBar() {
             </Menu>
           </Box>
           <Typography
+            onClick={logoClickHandler}
             variant="h5"
             noWrap
             component="a"
@@ -114,7 +115,7 @@ function MainBar() {
               flexGrow: 1,
               fontFamily: "monospace",
               fontWeight: 700,
-              letterSpacing: ".3rem",
+              letterSpacing: ".1rem",
               color: "inherit",
               textDecoration: "none",
             }}
@@ -155,7 +156,6 @@ function MainBar() {
               <MenuItem onClick={singInHandler}>
                 <Typography textAlign="center">Sign In</Typography>
               </MenuItem>
-
             </Menu>
           </Box>
         </Toolbar>
