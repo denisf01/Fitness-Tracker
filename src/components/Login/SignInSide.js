@@ -14,8 +14,9 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import loginImage from "../../images/login-image.jpg";
 import Header from "../MainPage/Header";
-import { createRef, useRef, useState } from "react";
+import { createRef, useContext, useRef, useState } from "react";
 import { API_KEY } from "../../constants/api";
+import Context from "../../store/context";
 function Copyright(props) {
   return (
     <Typography
@@ -37,10 +38,12 @@ function Copyright(props) {
 const theme = createTheme();
 
 export default function SignInSide() {
+  const ctx = useContext(Context);
   const [error, setError] = useState(undefined);
 
   const [isLogin, setIsLogin] = useState(true);
   const {
+    reset,
     register,
     handleSubmit,
     formState: { errors },
@@ -63,7 +66,19 @@ export default function SignInSide() {
       })
       .then(function (response) {
         console.log(response);
+
         setError(undefined);
+        if (!isLogin) {
+          axios.put(
+            `https://final-project-5c7aa-default-rtdb.europe-west1.firebasedatabase.app/users/${response.data.localId}.json`,
+            {
+              FirstName: data.FirstName,
+              LastName: data.LastName,
+              email: data.Email,
+            }
+          );
+        }
+        ctx.login(response.data.idToken);
       })
       .catch(function (error) {
         console.log(error);
@@ -76,11 +91,12 @@ export default function SignInSide() {
   const RegisterHandler = () => {
     setIsLogin((prevState) => !prevState);
     setError(undefined);
+    reset();
   };
 
   return (
     <ThemeProvider theme={theme}>
-      <Header /> <br />
+      <br />
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
@@ -136,7 +152,6 @@ export default function SignInSide() {
                   label="First name"
                   name="firstname"
                   autoComplete=""
-                  autoFocus
                   {...register("FirstName", {
                     required: true,
                     maxLength: 80,
@@ -180,7 +195,6 @@ export default function SignInSide() {
                 label="Email Address"
                 name="email"
                 autoComplete="email"
-                autoFocus
                 {...register("Email", {
                   required: true,
                   pattern: /^\S+@\S+$/i,

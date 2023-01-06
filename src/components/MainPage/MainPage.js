@@ -4,7 +4,6 @@ import classes from "./MainPage.module.css"
 
 const MainPage = props => {
     return <div className={classes}>
-        <Header/>
         <Background/>
     </div>
 

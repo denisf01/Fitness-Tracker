@@ -13,8 +13,11 @@ import MenuItem from "@mui/material/MenuItem";
 import FitnessCenterIcon from "@mui/icons-material/FitnessCenter";
 import PersonIcon from "@mui/icons-material/Person";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
+import { useContext } from "react";
+import Context from "../../store/context";
 
 function MainBar() {
+  const ctx = useContext(Context);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
   const history = useHistory();
@@ -38,7 +41,16 @@ function MainBar() {
     history.replace("/");
   };
   const singInHandler = () => {
-    history.replace("/login");
+    history.push("/login");
+    setAnchorElUser(null);
+  };
+  const logOutHandler = () => {
+    ctx.logout();
+    setAnchorElUser(null);
+  };
+  const profileHandler = () => {
+    history.replace("/profile");
+    setAnchorElUser(null);
   };
 
   return (
@@ -153,9 +165,21 @@ function MainBar() {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
             >
-              <MenuItem onClick={singInHandler}>
-                <Typography textAlign="center">Sign In</Typography>
-              </MenuItem>
+              {!ctx.isLoggedIn && (
+                <MenuItem onClick={singInHandler}>
+                  <Typography textAlign="center">Sign In</Typography>
+                </MenuItem>
+              )}
+              {ctx.isLoggedIn && (
+                <MenuItem onClick={profileHandler}>
+                  <Typography textAlign="center">Profile</Typography>
+                </MenuItem>
+              )}
+              {ctx.isLoggedIn && (
+                <MenuItem onClick={logOutHandler}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
         </Toolbar>
