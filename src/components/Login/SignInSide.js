@@ -78,7 +78,7 @@ export default function SignInSide() {
             }
           );
         }
-        ctx.login(response.data.idToken);
+        ctx.login(response.data.idToken, response.data.localId);
       })
       .catch(function (error) {
         console.log(error);
