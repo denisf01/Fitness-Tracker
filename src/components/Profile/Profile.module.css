@@ -1,12 +1,27 @@
 .icon {
-    margin-top: 3rem;
-    margin-left: 3rem;
+  width: 10%;
+  margin: 1.5rem auto;
 }
 
 .text {
-    margin-left: 3rem;
+  max-width: 25rem;
+  text-align: center;
+  margin: auto;
+  font-weight: bold;
+}
+.textItem{
+  border: 2px solid black;
+  border-radius: 10px;
 }
 
-.loading{
-    margin-left: 8rem;
+.loading {
+  width: 10%;
+  margin: auto;
+}
+
+.card {
+  display: flex;
+  justify-content: center;
+  position: relative;
+  top: 10rem;
 }

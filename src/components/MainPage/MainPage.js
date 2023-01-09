@@ -1,10 +1,10 @@
 import Header from "./Header";
-import Background from "./Background";
+import MainBackground from "./MainBackground";
 import classes from "./MainPage.module.css"
 
 const MainPage = props => {
     return <div className={classes}>
-        <Background/>
+        <MainBackground/>
     </div>
 
 }

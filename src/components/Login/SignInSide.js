@@ -7,6 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
+
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -17,6 +18,7 @@ import Header from "../MainPage/Header";
 import { createRef, useContext, useRef, useState } from "react";
 import { API_KEY } from "../../constants/api";
 import Context from "../../store/context";
+import CustomizedSnackbars from "./Alert";
 function Copyright(props) {
   return (
     <Typography
@@ -40,8 +42,8 @@ const theme = createTheme();
 export default function SignInSide() {
   const ctx = useContext(Context);
   const [error, setError] = useState(undefined);
-
   const [isLogin, setIsLogin] = useState(true);
+  const [isSuccess, setIsSuccess] = useState(false);
   const {
     reset,
     register,
@@ -78,7 +80,18 @@ export default function SignInSide() {
             }
           );
         }
-        ctx.login(response.data.idToken, response.data.localId);
+        const expirationTime = new Date(
+          new Date().getTime() + +response.data.expiresIn * 1000
+        );
+        setIsSuccess(true);
+        setTimeout(() => {
+          ctx.login(
+            response.data.idToken,
+            response.data.localId,
+            expirationTime.toISOString()
+          );
+          setIsSuccess(false);
+        }, 2000);
       })
       .catch(function (error) {
         console.log(error);
@@ -97,6 +110,9 @@ export default function SignInSide() {
   return (
     <ThemeProvider theme={theme}>
       <br />
+      {isSuccess && (
+        <CustomizedSnackbars text={"Logged in successfully. Redirecting..."} />
+      )}
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />
         <Grid
