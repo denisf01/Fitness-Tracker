@@ -3,9 +3,13 @@ import Button from "@mui/material/Button";
 import Menu from "@mui/material/Menu";
 import MenuItem from "@mui/material/MenuItem";
 import SettingsIcon from "@mui/icons-material/Settings";
+import { useState } from "react";
+import FormDialog from "./Modal";
 
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [isPasswordChange, setIsPasswordChange] = useState(false);
+
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -13,9 +17,21 @@ export default function BasicMenu() {
   const handleClose = () => {
     setAnchorEl(null);
   };
-
+  const changePasswordHandler = () => {
+    setIsPasswordChange(true);
+  };
+  const closeHandler = () => {
+    setIsPasswordChange(false);
+  };
   return (
     <div>
+      <FormDialog
+        label={"Password"}
+        tilte={"Change password"}
+        text={"Please enter a new password."}
+        open={isPasswordChange}
+        close={closeHandler}
+      />
       <Button
         id="basic-button"
         aria-controls={open ? "basic-menu" : undefined}
@@ -23,7 +39,7 @@ export default function BasicMenu() {
         aria-expanded={open ? "true" : undefined}
         onClick={handleClick}
       >
-        <SettingsIcon color={'action'} />
+        <SettingsIcon color={"action"} />
       </Button>
       <Menu
         id="basic-menu"
@@ -34,8 +50,7 @@ export default function BasicMenu() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={handleClose}>Change e-mail</MenuItem>
-        <MenuItem onClick={handleClose}>Change password</MenuItem>
+        <MenuItem onClick={changePasswordHandler}>Change password</MenuItem>
       </Menu>
     </div>
   );

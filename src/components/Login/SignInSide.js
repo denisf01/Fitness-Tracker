@@ -18,7 +18,7 @@ import Header from "../MainPage/Header";
 import { createRef, useContext, useRef, useState } from "react";
 import { API_KEY } from "../../constants/api";
 import Context from "../../store/context";
-import CustomizedSnackbars from "./Alert";
+import CustomizedAlert from "../Alert/Alert";
 function Copyright(props) {
   return (
     <Typography
@@ -111,7 +111,7 @@ export default function SignInSide() {
     <ThemeProvider theme={theme}>
       <br />
       {isSuccess && (
-        <CustomizedSnackbars text={"Logged in successfully. Redirecting..."} />
+        <CustomizedAlert text={"Logged in successfully. Redirecting..."} />
       )}
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />

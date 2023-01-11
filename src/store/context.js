@@ -5,7 +5,7 @@ const Context = React.createContext({
   token: null,
   id: null,
   isLoggedIn: false,
-  login: (token) => {},
+  login: (token, id, expirationTime) => {},
   logout: () => {},
   isLoggedOut: false,
 });
