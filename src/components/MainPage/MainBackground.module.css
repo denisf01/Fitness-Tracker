@@ -1,9 +1,3 @@
-.image img {
-  width: 100%;
-  height: 100vh;
-
-}
-
 .text {
   text-align: center;
   position: absolute;
@@ -11,11 +5,14 @@
   left: 50%;
   transform: translate(-50%, -50%);
   color: white;
-
 }
 .text h1 {
   font-size: 50px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  text-shadow: 1px 1px 2px black;
 }
 .text h3 {
   font-size: 30px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  text-shadow: 1px 1px 2px black;
 }
