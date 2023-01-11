@@ -7,11 +7,12 @@ import Context, { ContextProvider } from "./store/context";
 import { useContext } from "react";
 import ProfilePage from "./pages/ProfilePage";
 import Header from "./components/MainPage/Header";
+import ExercisesPage from "./pages/ExercisesPage";
 function App() {
   const ctx = useContext(Context);
   return (
     <React.Fragment>
-        <Header/>
+      <Header />
       <Switch>
         <Route path={"/"} exact>
           <LandingPage />
@@ -24,6 +25,11 @@ function App() {
         {ctx.isLoggedIn && (
           <Route path={"/profile"} exact>
             <ProfilePage />
+          </Route>
+        )}
+        {ctx.isLoggedIn && (
+          <Route path={"/exercises"} exact>
+            <ExercisesPage />
           </Route>
         )}
         <Route path={"/"}>

@@ -111,7 +111,13 @@ export default function SignInSide() {
     <ThemeProvider theme={theme}>
       <br />
       {isSuccess && (
-        <CustomizedAlert text={"Logged in successfully. Redirecting..."} />
+        <CustomizedAlert
+          text={
+            isLogin
+              ? "Logged in successfully. Redirecting..."
+              : "Registered successfully. Redirecting...."
+          }
+        />
       )}
       <Grid container component="main" sx={{ height: "100vh" }}>
         <CssBaseline />

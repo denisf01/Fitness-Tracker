@@ -52,6 +52,9 @@ function MainBar() {
     history.replace("/profile");
     setAnchorElUser(null);
   };
+  const exercisesHandler = () => {
+      history.push('/exercises');
+  }
 
   return (
     <AppBar position="fixed">
@@ -107,12 +110,11 @@ function MainBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Test</Typography>
-              </MenuItem>
-              <MenuItem onClick={handleCloseNavMenu}>
-                <Typography textAlign="center">Test</Typography>
-              </MenuItem>
+              {ctx.isLoggedIn && (
+                <MenuItem onClick={exercisesHandler}>
+                  <Typography textAlign="center">Exercises</Typography>
+                </MenuItem>
+              )}
             </Menu>
           </Box>
           <Typography
@@ -135,12 +137,11 @@ function MainBar() {
             Fitness Tracker
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
-            <Button sx={{ my: 2, color: "white", display: "block" }}>
-              Test
-            </Button>
-            <Button sx={{ my: 2, color: "white", display: "block" }}>
-              Test
-            </Button>
+            {ctx.isLoggedIn && (
+              <Button onClick={exercisesHandler} sx={{ my: 2, color: "white", display: "block" }}>
+                Exercises
+              </Button>
+            )}
           </Box>
 
           <Box sx={{ flexGrow: 0 }}>
