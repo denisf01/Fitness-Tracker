@@ -9,7 +9,7 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
-import { API_KEY } from "../../constants/api";
+import { passwordChange_url} from "../../constants/url";
 import axios from "axios";
 import Context from "../../store/context";
 import CustomizedAlert from "../Alert/Alert";
@@ -31,11 +31,10 @@ export default function FormDialog(props) {
     console.log(data);
     axios
       .post(
-        "https://identitytoolkit.googleapis.com/v1/accounts:update?key=" +
-          API_KEY,
+        passwordChange_url,
         {
           idToken: ctx.token,
-          password: data.Password,
+          password: data.password,
           returnSecureToken: true,
         }
       )
@@ -44,16 +43,17 @@ export default function FormDialog(props) {
         const expirationTime = new Date(
           new Date().getTime() + +response.data.expiresIn * 1000
         );
-        ctx.login(
-          response.data.idToken,
-          response.data.localId,
-          expirationTime.toISOString()
-        );
-        reset();
-        props.close();
+
         setIsSuccess(true);
         setTimeout(() => {
           setIsSuccess(false);
+          ctx.login(
+            response.data.idToken,
+            response.data.localId,
+            expirationTime.toISOString()
+          );
+          reset();
+          props.close();
         }, 3000);
       })
       .catch(function (error) {
@@ -77,9 +77,9 @@ export default function FormDialog(props) {
             <DialogContentText>{props.text}</DialogContentText>
 
             <TextField
-              error={errors.Password !== undefined}
+              error={errors.password}
               helperText={
-                errors.Password === undefined
+                errors.password === undefined
                   ? ""
                   : "Password must be at least 6 characters."
               }
@@ -91,7 +91,7 @@ export default function FormDialog(props) {
               fullWidth
               variant="standard"
               autoComplete="password"
-              {...register("Password", { required: true, minLength: 6 })}
+              {...register("password", { required: true, minLength: 6 })}
             />
           </DialogContent>
           <DialogActions>

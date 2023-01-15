@@ -7,7 +7,7 @@ import Box from "@mui/material/Box";
 import Context from "../../store/context";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
-import { deepOrange, deepPurple } from "@mui/material/colors";
+import { deepOrange } from "@mui/material/colors";
 
 import ProfileCard from "./ProfileCard";
 const Profile = (props) => {
@@ -83,7 +83,8 @@ const Profile = (props) => {
         backgroundSize: "cover",
       }}
     >
-      <div className={classes.card}>
+
+        <div className={classes.card}>
         <ProfileCard>
           <div className={classes.icon}>
             <Avatar sx={{ width: 56, height: 56, bgcolor: deepOrange[500] }}>

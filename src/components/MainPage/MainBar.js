@@ -53,8 +53,9 @@ function MainBar() {
     setAnchorElUser(null);
   };
   const exercisesHandler = () => {
-      history.push('/exercises');
-  }
+    history.push("/exercises");
+    setAnchorElNav(null);
+  };
 
   return (
     <AppBar position="fixed">
@@ -138,7 +139,10 @@ function MainBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {ctx.isLoggedIn && (
-              <Button onClick={exercisesHandler} sx={{ my: 2, color: "white", display: "block" }}>
+              <Button
+                onClick={exercisesHandler}
+                sx={{ my: 2, color: "white", display: "block" }}
+              >
                 Exercises
               </Button>
             )}

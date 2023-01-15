@@ -1,13 +1,10 @@
 import * as React from "react";
-import Button from "@mui/material/Button";
 import { Redirect, Route, Switch } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import SignInPage from "./pages/SignInPage";
 import Context, { ContextProvider } from "./store/context";
 import { useContext } from "react";
-import ProfilePage from "./pages/ProfilePage";
 import Header from "./components/MainPage/Header";
-import ExercisesPage from "./pages/ExercisesPage";
+import { pages } from "./constants/pages";
 function App() {
   const ctx = useContext(Context);
   return (
@@ -17,21 +14,15 @@ function App() {
         <Route path={"/"} exact>
           <LandingPage />
         </Route>
-        {!ctx.isLoggedIn && (
-          <Route path={"/login"} exact>
-            <SignInPage />
-          </Route>
-        )}
-        {ctx.isLoggedIn && (
-          <Route path={"/profile"} exact>
-            <ProfilePage />
-          </Route>
-        )}
-        {ctx.isLoggedIn && (
-          <Route path={"/exercises"} exact>
-            <ExercisesPage />
-          </Route>
-        )}
+        {pages.map((page) => {
+          return (
+            (page.isLoginReq ? ctx.isLoggedIn : !ctx.isLoggedIn) && (
+              <Route key={Math.random().toString()} path={page.path} exact>
+                {page.component}
+              </Route>
+            )
+          );
+        })}
         <Route path={"/"}>
           <Redirect to={"/"} />
         </Route>

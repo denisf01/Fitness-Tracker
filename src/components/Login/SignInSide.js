@@ -7,16 +7,15 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
-
+import { inputs } from "../../constants/inputs";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
 import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import loginImage from "../../images/login-image.jpg";
-import Header from "../MainPage/Header";
-import { createRef, useContext, useRef, useState } from "react";
-import { API_KEY } from "../../constants/api";
+import { useContext, useState } from "react";
+import { signIn_url, signUp_url, users_url } from "../../constants/url";
 import Context from "../../store/context";
 import CustomizedAlert from "../Alert/Alert";
 function Copyright(props) {
@@ -51,19 +50,12 @@ export default function SignInSide() {
     formState: { errors },
   } = useForm();
   let url;
-  if (isLogin)
-    url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signInWithPassword?key=" +
-      API_KEY;
-  else
-    url =
-      "https://identitytoolkit.googleapis.com/v1/accounts:signUp?key=" +
-      API_KEY;
+
   const onSubmit = (data) => {
     axios
-      .post(url, {
-        email: data.Email,
-        password: data.Password,
+      .post(isLogin ? signIn_url : signUp_url, {
+        email: data.email,
+        password: data.password,
         returnSecureToken: true,
       })
       .then(function (response) {
@@ -71,14 +63,11 @@ export default function SignInSide() {
 
         setError(undefined);
         if (!isLogin) {
-          axios.put(
-            `https://final-project-5c7aa-default-rtdb.europe-west1.firebasedatabase.app/users/${response.data.localId}.json`,
-            {
-              FirstName: data.FirstName,
-              LastName: data.LastName,
-              email: data.Email,
-            }
-          );
+          axios.put(users_url + `${response.data.localId}.json`, {
+            FirstName: data.firstname,
+            LastName: data.lastname,
+            email: data.email,
+          });
         }
         const expirationTime = new Date(
           new Date().getTime() + +response.data.expiresIn * 1000
@@ -159,86 +148,34 @@ export default function SignInSide() {
               onSubmit={handleSubmit(onSubmit)}
               sx={{ mt: 1 }}
             >
-              {!isLogin && (
-                <TextField
-                  error={errors.FirstName !== undefined}
-                  helperText={
-                    errors.FirstName === undefined
-                      ? ""
-                      : "Please enter valid first name."
-                  }
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="firstname"
-                  label="First name"
-                  name="firstname"
-                  autoComplete=""
-                  {...register("FirstName", {
-                    required: true,
-                    maxLength: 80,
-                    minLength: 2,
-                  })}
-                />
-              )}
-              {!isLogin && (
-                <TextField
-                  error={errors.LastName !== undefined}
-                  helperText={
-                    errors.LastName === undefined
-                      ? ""
-                      : "Please enter valid last name."
-                  }
-                  margin="normal"
-                  required
-                  fullWidth
-                  id="lastname"
-                  label="Last name"
-                  name="lastname"
-                  autoComplete=""
-                  {...register("LastName", {
-                    required: true,
-                    maxLength: 80,
-                    minLength: 2,
-                  })}
-                />
-              )}
-              <TextField
-                error={errors.Email !== undefined}
-                helperText={
-                  errors.Email === undefined
-                    ? ""
-                    : "Please enter valid e-mail address."
-                }
-                margin="normal"
-                required
-                fullWidth
-                id="email"
-                label="Email Address"
-                name="email"
-                autoComplete="email"
-                {...register("Email", {
-                  required: true,
-                  pattern: /^\S+@\S+$/i,
-                })}
-              />
-              <TextField
-                error={errors.Password !== undefined}
-                helperText={
-                  errors.Password === undefined
-                    ? ""
-                    : "Password must be at least 6 characters."
-                }
-                margin="normal"
-                required
-                fullWidth
-                name="password"
-                label="Password"
-                type="password"
-                id="password"
-                autoComplete="current-password"
-                {...register("Password", { required: true, minLength: 6 })}
-              />
+              {inputs.map((input) => {
+                return (
+                  (input.id === "firstname" || input.id === "lastname"
+                    ? !isLogin
+                    : true) && (
+                    <TextField
+                      error={errors[`${input.id}`]}
+                      helperText={
+                        errors[`${input.id}`] === undefined
+                          ? ""
+                          : input.helperText
+                      }
+                      margin={input.margin}
+                      required
+                      fullWidth
+                      type={input.id}
+                      key={input.id}
+                      id={input.id}
+                      label={input.label}
+                      name={input.id}
+                      autoComplete={input.autoComplete}
+                      {...register(`${input.id}`, {
+                        ...input.register,
+                      })}
+                    />
+                  )
+                );
+              })}
 
               <Typography style={{ color: "red" }}>
                 {!!error ? error : ""}
