@@ -19,24 +19,29 @@ export default function FormDialog(props) {
     setInput(event.target.value);
   };
   const handleSubmit = () => {
-    ctx.addExercise(input);
-    props.close();
-    setInput('');
+    if (props.id === "input") {
+      ctx.addExercise(input);
+      props.close();
+      setInput("");
+    }
+    if (props.id === 'edit') {
+      if (!!props.exerciseId) {
+        ctx.editExercise(props.exerciseId, input);
+      }
+    }
   };
   return (
     <div>
       <Dialog open={props.open} onClose={handleClose}>
-        <DialogTitle>Add new exercise</DialogTitle>
+        <DialogTitle>{props.title}</DialogTitle>
         <DialogContent>
-          <DialogContentText>
-            Please enter the name of the new exercise.
-          </DialogContentText>
+          <DialogContentText>{props.text}</DialogContentText>
           <TextField
             onChange={inputChangeHandler}
             autoFocus
             margin="dense"
             id="name"
-            label="Exercise name"
+            label={props.label}
             type="text"
             fullWidth
             variant="standard"

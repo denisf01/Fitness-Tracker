@@ -13,6 +13,7 @@ const Context = React.createContext({
   exercises: [],
   addExercise: (name) => {},
   deleteExercise: (id) => {},
+  editExercise: (id, input) => {},
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -91,7 +92,20 @@ export const ContextProvider = (props) => {
   const deleteExerciseHandler = (id) => {
     const newExercises = exercises.filter((exercise) => exercise.id !== id);
     setExercises(newExercises);
-    // izbrisati i iz base podataka 
+    axios
+      .delete(users_url + userId + `/exercises/${id}.json`)
+      .then(() => console.log("Deleted"));
+  };
+  const editExerciseHandler = (id, input) => {
+    setExercises((prevState) => {
+      let newState = [...prevState];
+      const index = newState.findIndex((exercise) => exercise.id === id);
+      newState[index].name = input;
+      return newState;
+    });
+    axios
+      .put(users_url + userId + `/exercises/${id}.json`, { name: input })
+      .then((res) => console.log(res));
   };
   const logoutHandler = useCallback(() => {
     setToken(null);
@@ -127,6 +141,7 @@ export const ContextProvider = (props) => {
     exercises,
     addExercise: addExerciseHandler,
     deleteExercise: deleteExerciseHandler,
+    editExercise: editExerciseHandler,
   };
   useEffect(() => {
     if (tokenData) {
