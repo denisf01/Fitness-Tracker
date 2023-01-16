@@ -1,7 +1,7 @@
 import * as React from "react";
 import { Redirect, Route, Switch } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
-import Context, { ContextProvider } from "./store/context";
+import Context from "./store/context";
 import { useContext } from "react";
 import Header from "./components/MainPage/Header";
 import { pages } from "./constants/pages";

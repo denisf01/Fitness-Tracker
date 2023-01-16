@@ -56,6 +56,10 @@ function MainBar() {
     history.push("/exercises");
     setAnchorElNav(null);
   };
+  const workoutsHandler = () => {
+    history.push("/workouts");
+    setAnchorElNav(null);
+  };
 
   return (
     <AppBar position="fixed">
@@ -111,11 +115,20 @@ function MainBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {ctx.isLoggedIn && (
-                <MenuItem onClick={exercisesHandler}>
+              {ctx.isLoggedIn && [
+                <MenuItem
+                  key={Math.random().toString()}
+                  onClick={exercisesHandler}
+                >
                   <Typography textAlign="center">Exercises</Typography>
-                </MenuItem>
-              )}
+                </MenuItem>,
+                <MenuItem
+                  key={Math.random().toString()}
+                  onClick={workoutsHandler}
+                >
+                  <Typography textAlign="center">Workouts</Typography>
+                </MenuItem>,
+              ]}
             </Menu>
           </Box>
           <Typography
@@ -139,12 +152,20 @@ function MainBar() {
           </Typography>
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {ctx.isLoggedIn && (
-              <Button
-                onClick={exercisesHandler}
-                sx={{ my: 2, color: "white", display: "block" }}
-              >
-                Exercises
-              </Button>
+              <React.Fragment>
+                <Button
+                  onClick={exercisesHandler}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  Exercises
+                </Button>
+                <Button
+                  onClick={workoutsHandler}
+                  sx={{ my: 2, color: "white", display: "block" }}
+                >
+                  Workouts
+                </Button>
+              </React.Fragment>
             )}
           </Box>
 
