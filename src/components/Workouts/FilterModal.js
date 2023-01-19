@@ -52,6 +52,7 @@ export default function FilterModal(props) {
             <Button
               onClick={() => {
                 props.onSubmit(null);
+                setInput(null);
                 props.close();
               }}
             >

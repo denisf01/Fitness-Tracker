@@ -4,3 +4,8 @@
     position: relative;
     top: 10rem;
 }
+
+.action{
+    position: relative;
+    float: right;
+}

@@ -23,7 +23,9 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import { useState } from "react";
 import FilterModal from "./FilterModal";
-
+import Button from "@mui/material/Button";
+import AddIcon from "@mui/icons-material/Add";
+import NewWorkoutModal from "./NewWorkoutModal";
 function createData(name, time, weight, num, rpe) {
   return {
     name,
@@ -170,7 +172,7 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, filter } = props;
+  const { numSelected, filter, addWorkout } = props;
   const filterHandler = () => {
     filter();
   };
@@ -206,6 +208,9 @@ function EnhancedTableToolbar(props) {
           component="div"
         >
           Workouts
+          <Button onClick={() => addWorkout()}>
+            <AddIcon />
+          </Button>
         </Typography>
       )}
 
@@ -232,7 +237,9 @@ EnhancedTableToolbar.propTypes = {
 
 export default function WorkoutsTable() {
   const [order, setOrder] = React.useState("asc");
-  const [open, setOpen] = useState(false);
+  const [openFilter, setOpenFilter] = useState(false);
+  const [openAddWorkout, setOpenAddWorkout] = useState(false);
+
   const [orderBy, setOrderBy] = React.useState("name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
@@ -279,7 +286,8 @@ export default function WorkoutsTable() {
     setPage(newPage);
   };
   const closeHandler = () => {
-    setOpen(false);
+    setOpenFilter(false);
+    setOpenAddWorkout(false);
   };
   const handleChangeDense = (event) => {
     setDense(event.target.checked);
@@ -299,14 +307,16 @@ export default function WorkoutsTable() {
         title={"Filter exercises"}
         text={"Select one exercise"}
         label={"Exercises"}
-        open={open}
+        open={openFilter}
         close={closeHandler}
         onSubmit={submitHandler}
       />
+      <NewWorkoutModal open={openAddWorkout} close={closeHandler} />
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar
+          addWorkout={() => setOpenAddWorkout(true)}
           filter={() => {
-            setOpen(true);
+            setOpenFilter(true);
           }}
           numSelected={selected.length}
         />

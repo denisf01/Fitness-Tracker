@@ -7,7 +7,7 @@ import CssBaseline from "@mui/material/CssBaseline";
 import TextField from "@mui/material/TextField";
 import { Link } from "react-router-dom";
 import Paper from "@mui/material/Paper";
-import { inputs } from "../../constants/inputs";
+import { loginInputs } from "../../constants/loginInputs";
 import Box from "@mui/material/Box";
 import Grid from "@mui/material/Grid";
 import LockOutlinedIcon from "@mui/icons-material/LockOutlined";
@@ -148,13 +148,13 @@ export default function SignInSide() {
               onSubmit={handleSubmit(onSubmit)}
               sx={{ mt: 1 }}
             >
-              {inputs.map((input) => {
+              {loginInputs.map((input) => {
                 return (
                   (input.id === "firstname" || input.id === "lastname"
                     ? !isLogin
                     : true) && (
                     <TextField
-                      error={errors[`${input.id}`]}
+                      error={!!errors[`${input.id}`]}
                       helperText={
                         errors[`${input.id}`] === undefined
                           ? ""
