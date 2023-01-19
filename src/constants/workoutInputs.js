@@ -3,7 +3,7 @@ export const workoutInputs = [
     helperText: "Please enter valid time.",
     margin: "normal",
     id: "time",
-    label: "Time",
+    label: "",
     inputProps: {
       step: 0.1,
     },

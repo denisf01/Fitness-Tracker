@@ -252,7 +252,6 @@ export default function WorkoutsTable() {
     setOrder(isAsc ? "desc" : "asc");
     setOrderBy(property);
   };
-
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
       const newSelected = rows.map((n) => n.name);

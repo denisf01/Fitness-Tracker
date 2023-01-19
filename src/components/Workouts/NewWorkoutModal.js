@@ -1,13 +1,13 @@
 import * as React from "react";
 import Button from "@mui/material/Button";
 import TextField from "@mui/material/TextField";
-import classes from "./Workouts.module.css"
+import classes from "./Workouts.module.css";
 import { useForm } from "react-hook-form";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useContext, useState } from "react";
+import { useRef, useContext, useEffect, useState } from "react";
 import Context from "../../store/context";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -18,11 +18,10 @@ import { workoutInputs } from "../../constants/workoutInputs";
 
 export default function NewWorkoutModal(props) {
   const ctx = useContext(Context);
+  const ref = useRef();
+  const [timer, setTimer] = useState(0);
+  const [startTimer, setStartTimer] = useState(false);
   const [exerciseInput, setExerciseInput] = useState("");
-  const [timeInput, setTimeInput] = useState("");
-  const [weightInput, setWeightInput] = useState("");
-  const [repsInput, setRepsInput] = useState("");
-  const [rpeInput, setRpeInput] = useState("");
   const {
     register,
     reset,
@@ -30,26 +29,30 @@ export default function NewWorkoutModal(props) {
     formState: { errors },
   } = useForm();
   console.log(errors);
-
+  const handleStart = () => {
+    setStartTimer(true);
+  };
+  const handleStop = () => {
+    setStartTimer(false);
+  };
+  const handleReset = () => {
+    setTimer(0);
+    ref.current.value = 0;
+  };
+  useEffect(() => {
+    if (startTimer) {
+      setTimeout(() => {
+        setTimer((prevState) => prevState + 1);
+      }, 1000);
+      ref.current.value = timer;
+    }
+  }, [timer, startTimer]);
   const handleClose = () => {
     props.close();
   };
-  const exerciseChangeHandler = (event) => {
-    setExerciseInput(event.target.value);
-  };
-  const timeChangeHandler = (event) => {
-    setTimeInput(event.target.value);
-  };
-  const weightChangeHandler = (event) => {
-    setWeightInput(event.target.value);
-  };
-  const repsChangeHandler = (event) => {
-    setRepsInput(event.target.value);
-  };
-  const rpeChangeHandler = (event) => {
-    setRpeInput(event.target.value);
-  };
+
   const onSubmit = (data) => {
+    data.time = ref.current.value.toString();
     console.log(data);
     // props.onSubmit();
     // props.close();
@@ -68,13 +71,11 @@ export default function NewWorkoutModal(props) {
             <FormControl style={{ marginTop: "5px" }} fullWidth>
               <InputLabel id="demo-simple-select-label">Exercise</InputLabel>
               <Select
-                value={exerciseInput}
                 label="Exercise"
                 error={!!errors.exercise}
                 {...register(`exercise`, {
                   required: true,
                 })}
-                onChange={exerciseChangeHandler}
               >
                 {ctx.exercises.map((exercise) => {
                   return (
@@ -87,7 +88,12 @@ export default function NewWorkoutModal(props) {
                   );
                 })}
               </Select>
-
+              <div style={{ width: "auto", margin: "auto" }}>
+                <Button onClick={handleStart}>Start</Button>
+                <Button onClick={handleStop}>Stop</Button>
+                <Button onClick={handleReset}>Reset</Button>
+              </div>
+              <div style={{ textAlign: "center" }}>Time(s)</div>
               {workoutInputs.map((input) => {
                 return (
                   <TextField
@@ -97,6 +103,8 @@ export default function NewWorkoutModal(props) {
                         ? ""
                         : input.helperText
                     }
+                    inputRef={input.id === "time" ? ref : null}
+                    defaultValue={input.id === "time" ? 0 : null}
                     margin={input.margin}
                     required
                     fullWidth
