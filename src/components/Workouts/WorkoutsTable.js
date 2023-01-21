@@ -21,13 +21,15 @@ import Switch from "@mui/material/Switch";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import FilterModal from "./FilterModal";
 import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import NewWorkoutModal from "./NewWorkoutModal";
-function createData(name, time, weight, num, rpe) {
+import Context from "../../store/context";
+function createData(id, name, time, weight, num, rpe) {
   return {
+    id,
     name,
     time,
     weight,
@@ -35,14 +37,6 @@ function createData(name, time, weight, num, rpe) {
     rpe,
   };
 }
-
-const rows = [
-  createData("Running", 305, 3.7, 67, 5),
-  createData("Paddling", 452, 25.0, 51, 4),
-  createData("Bench Press", 262, 16.0, 24, 7),
-  createData("Cycling", 159, 6.0, 24, 9),
-  createData("Pull Ups", 356, 16.0, 49, 5),
-];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) {
@@ -172,9 +166,13 @@ EnhancedTableHead.propTypes = {
 };
 
 function EnhancedTableToolbar(props) {
-  const { numSelected, filter, addWorkout } = props;
+  const ctx = useContext(Context);
+  const { numSelected, filter, addWorkout, selected } = props;
   const filterHandler = () => {
     filter();
+  };
+  const deleteHandler = () => {
+    ctx.deleteWorkout(selected);
   };
 
   return (
@@ -216,7 +214,7 @@ function EnhancedTableToolbar(props) {
 
       {numSelected > 0 ? (
         <Tooltip title="Delete">
-          <IconButton>
+          <IconButton onClick={deleteHandler}>
             <DeleteIcon />
           </IconButton>
         </Tooltip>
@@ -236,6 +234,7 @@ EnhancedTableToolbar.propTypes = {
 };
 
 export default function WorkoutsTable() {
+  const ctx = useContext(Context);
   const [order, setOrder] = React.useState("asc");
   const [openFilter, setOpenFilter] = useState(false);
   const [openAddWorkout, setOpenAddWorkout] = useState(false);
@@ -243,10 +242,18 @@ export default function WorkoutsTable() {
   const [orderBy, setOrderBy] = React.useState("name");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState(false);
   const [filter, setFilter] = useState(null);
   const rowsPerPage = 5;
-
+  const rows = ctx.workouts.map((workout) => {
+    return createData(
+      workout.id,
+      workout.name,
+      workout.time,
+      workout.weight,
+      workout.reps,
+      workout.rpe
+    );
+  });
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
     setOrder(isAsc ? "desc" : "asc");
@@ -254,7 +261,7 @@ export default function WorkoutsTable() {
   };
   const handleSelectAllClick = (event) => {
     if (event.target.checked) {
-      const newSelected = rows.map((n) => n.name);
+      const newSelected = rows.map((n) => n.id);
       setSelected(newSelected);
       return;
     }
@@ -288,9 +295,7 @@ export default function WorkoutsTable() {
     setOpenFilter(false);
     setOpenAddWorkout(false);
   };
-  const handleChangeDense = (event) => {
-    setDense(event.target.checked);
-  };
+
   const submitHandler = (option) => {
     setFilter(option);
   };
@@ -318,12 +323,13 @@ export default function WorkoutsTable() {
             setOpenFilter(true);
           }}
           numSelected={selected.length}
+          selected={selected}
         />
         <TableContainer>
           <Table
             sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
-            size={dense ? "small" : "medium"}
+            size={"medium"}
           >
             <EnhancedTableHead
               numSelected={selected.length}
@@ -340,17 +346,17 @@ export default function WorkoutsTable() {
               )
                 .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
                 .map((row, index) => {
-                  const isItemSelected = isSelected(row.name);
+                  const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
                     <TableRow
                       hover
-                      onClick={(event) => handleClick(event, row.name)}
+                      onClick={(event) => handleClick(event, row.id)}
                       role="checkbox"
                       aria-checked={isItemSelected}
                       tabIndex={-1}
-                      key={row.name}
+                      key={row.id}
                       selected={isItemSelected}
                     >
                       <TableCell padding="checkbox">
@@ -380,7 +386,7 @@ export default function WorkoutsTable() {
               {emptyRows > 0 && (
                 <TableRow
                   style={{
-                    height: (dense ? 33 : 53) * emptyRows,
+                    height: 53 * emptyRows,
                   }}
                 >
                   <TableCell colSpan={6} />
@@ -393,17 +399,13 @@ export default function WorkoutsTable() {
           rowsPerPageOptions={[5]}
           component="div"
           count={
-            rows.filter((row) => (!!filter ? row.name === filter : true)).length
+            rows.filter((row) => (!!filter ? row.id === filter : true)).length
           }
           rowsPerPage={rowsPerPage}
           page={page}
           onPageChange={handleChangePage}
         />
       </Paper>
-      <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="Dense padding"
-      />
     </Box>
   );
 }

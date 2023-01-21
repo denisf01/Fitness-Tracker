@@ -21,7 +21,6 @@ export default function NewWorkoutModal(props) {
   const ref = useRef();
   const [timer, setTimer] = useState(0);
   const [startTimer, setStartTimer] = useState(false);
-  const [exerciseInput, setExerciseInput] = useState("");
   const {
     register,
     reset,
@@ -48,12 +47,16 @@ export default function NewWorkoutModal(props) {
     }
   }, [timer, startTimer]);
   const handleClose = () => {
+    reset();
     props.close();
   };
 
   const onSubmit = (data) => {
     data.time = ref.current.value.toString();
     console.log(data);
+    ctx.addWorkout(data);
+    reset();
+    props.close();
     // props.onSubmit();
     // props.close();
   };

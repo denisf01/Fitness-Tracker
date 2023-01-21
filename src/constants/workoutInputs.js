@@ -9,7 +9,7 @@ export const workoutInputs = [
     },
     autoComplete: "",
     register: {
-      required: true,
+      required: false,
       min: 0,
     },
   },
@@ -23,7 +23,7 @@ export const workoutInputs = [
     },
     autoComplete: "",
     register: {
-      required: true,
+      required: false,
       min: 0,
     },
   },
@@ -37,7 +37,7 @@ export const workoutInputs = [
     label: "Number of repetitions",
     autoComplete: "",
     register: {
-      required: true,
+      required: false,
       min: 0,
     },
   },
@@ -51,7 +51,7 @@ export const workoutInputs = [
     label: "RPE (4-10)",
     autoComplete: "",
     register: {
-      required: true,
+      required: false,
       min: 4,
       max: 10,
     },
