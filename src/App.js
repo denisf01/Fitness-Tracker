@@ -3,7 +3,7 @@ import { Redirect, Route, Switch } from "react-router-dom";
 import LandingPage from "./pages/LandingPage";
 import Context from "./store/context";
 import { useContext } from "react";
-import Header from "./components/MainPage/Header";
+import Header from "./components/Header/Header";
 import { pages } from "./constants/pages";
 function App() {
   const ctx = useContext(Context);

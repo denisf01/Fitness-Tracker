@@ -3,6 +3,7 @@ import ProfilePage from "../pages/ProfilePage";
 import ExercisesPage from "../pages/ExercisesPage";
 import * as React from "react";
 import WorkoutsPage from "../pages/WorkoutsPage";
+import DashboardPage from "../pages/DashboardPage";
 
 export const pages = [
   {
@@ -23,6 +24,11 @@ export const pages = [
   {
     path: "/workouts",
     component: <WorkoutsPage />,
+    isLoginReq: true,
+  },
+  {
+    path: "/dashboard",
+    component: <DashboardPage />,
     isLoginReq: true,
   },
 ];
