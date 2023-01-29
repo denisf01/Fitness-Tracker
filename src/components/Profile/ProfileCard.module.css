@@ -1,7 +1,7 @@
 .box {
   width: 30%;
   height: 70vh;
-  background-image: url("https://images.squarespace-cdn.com/content/v1/5ada11772714e5eb213ab1df/1598972073858-26PCV72I86ITFZSLO8KY/Background-compressed.jpg?format=1500w");
+  background-image: url(../../images/profileCard.jpg);
   background-repeat: no-repeat;
   background-size: cover;
   border-radius: 10px;

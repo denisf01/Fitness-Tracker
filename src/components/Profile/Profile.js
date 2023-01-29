@@ -1,4 +1,3 @@
-import ProfileBackgroundPhoto from "../../images/profile-background.jpg";
 import classes from "./Profile.module.css";
 import React, { useCallback, useContext, useEffect, useState } from "react";
 import { Typography } from "@mui/material";
@@ -74,17 +73,8 @@ const Profile = (props) => {
   );
 
   return (
-    <div
-      style={{
-        backgroundImage: `url(${ProfileBackgroundPhoto})`,
-        width: "100%",
-        height: "100vh",
-        backgroundRepeat: "no-repeat",
-        backgroundSize: "cover",
-      }}
-    >
-
-        <div className={classes.card}>
+    <div className={classes.background}>
+      <div className={classes.card}>
         <ProfileCard>
           <div className={classes.icon}>
             <Avatar sx={{ width: 56, height: 56, bgcolor: deepOrange[500] }}>
