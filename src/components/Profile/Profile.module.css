@@ -31,4 +31,26 @@
   height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
+
+.table {
+  max-width: 60rem;
+  width: 90%;
+  margin: 15rem auto;
+}
+
+
+.data {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid #ccc;
+}
+
+.data h3 {
+  margin: 0 0 0.25rem 0;
+}
+

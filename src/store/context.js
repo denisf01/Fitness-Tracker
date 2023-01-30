@@ -11,9 +11,13 @@ const Context = React.createContext({
   logout: () => {},
   isLoggedOut: false,
   exercises: [],
+  weightData: [],
+  addWeightData: (data) => {},
+  deleteWeightData: (id) => {},
   addExercise: (name) => {},
   deleteExercise: (id) => {},
   editExercise: (id, input) => {},
+  workouts: [],
   addWorkout: (data) => {},
   deleteWorkout: (id) => {},
 });
@@ -48,8 +52,10 @@ export const ContextProvider = (props) => {
   const userId = localStorage.getItem("userId");
   const [exercises, setExercises] = useState([]);
   const [workouts, setWorkouts] = useState([]);
+  const [weightData, setWeightData] = useState([]);
   let initialExercises;
   let initialWorkouts;
+  let initialWeightData;
   useEffect(() => {
     axios
       .get(users_url + userId + "/exercises.json")
@@ -67,6 +73,25 @@ export const ContextProvider = (props) => {
         console.log(error);
       });
     axios
+      .get(users_url + userId + "/weightData.json")
+      .then(function (response) {
+        // handle success
+
+        initialWeightData = Object.keys(response.data).map((id) => {
+          return {
+            id,
+            date: response.data[id].date,
+            weight: response.data[id].weight,
+          };
+        });
+
+        setWeightData(initialWeightData);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+    axios
       .get(users_url + userId + "/workouts.json")
       .then(function (response) {
         // handle success
@@ -75,10 +100,10 @@ export const ContextProvider = (props) => {
           return {
             id,
             name: response.data[id].name,
-            time: response.data[id].time,
-            weight: response.data[id].weight,
-            reps: response.data[id].reps,
-            rpe: response.data[id].rpe,
+            time: +response.data[id].time,
+            weight: +response.data[id].weight,
+            reps: +response.data[id].reps,
+            rpe: +response.data[id].rpe,
           };
         });
 
@@ -116,6 +141,23 @@ export const ContextProvider = (props) => {
         console.log(error);
       });
   };
+  const addWeightDataHandler = (data) => {
+    const id = (Math.random() + 1).toString(36).substring(7);
+    setWeightData((prevState) => {
+      return [{ date: data.date, weight: data.weight, id }, ...prevState];
+    });
+    axios
+      .put(users_url + userId + `/weightData/${id}.json`, {
+        date: data.date,
+        weight: data.weight,
+      })
+      .then(function (response) {
+        console.log(response);
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
   const addWorkoutHandler = (data) => {
     if (data.time === "0") data.time = "";
     const id = (Math.random() + 1).toString(36).substring(7);
@@ -124,10 +166,10 @@ export const ContextProvider = (props) => {
         {
           id,
           name: data.exercise,
-          time: data.time,
-          weight: data.weight,
-          reps: data.reps,
-          rpe: data.rpe,
+          time: +data.time,
+          weight: +data.weight,
+          reps: +data.reps,
+          rpe: +data.rpe,
         },
         ...prevState,
       ];
@@ -152,6 +194,13 @@ export const ContextProvider = (props) => {
     setExercises(newExercises);
     axios
       .delete(users_url + userId + `/exercises/${id}.json`)
+      .then(() => console.log("Deleted"));
+  };
+  const deleteWeightDataHandler = (id) => {
+    const newWeightData = weightData.filter((data) => data.id !== id);
+    setWeightData(newWeightData);
+    axios
+      .delete(users_url + userId + `/weightData/${id}.json`)
       .then(() => console.log("Deleted"));
   };
 
@@ -208,6 +257,9 @@ export const ContextProvider = (props) => {
     isLoggedOut,
     exercises,
     workouts,
+    weightData,
+    addWeightData: addWeightDataHandler,
+    deleteWeightData: deleteWeightDataHandler,
     addExercise: addExerciseHandler,
     deleteExercise: deleteExerciseHandler,
     editExercise: editExerciseHandler,

@@ -7,8 +7,10 @@ import Context from "../../store/context";
 import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
-
+import { profileInputs } from "../../constants/profileInputs";
 import ProfileCard from "./ProfileCard";
+import { users_url } from "../../constants/url";
+import ProfileTable from "./ProfileTable";
 const Profile = (props) => {
   const [loading, setLoading] = useState(false);
   const ctx = useContext(Context);
@@ -21,9 +23,7 @@ const Profile = (props) => {
   const fetchUserData = useCallback(async () => {
     setLoading(true);
     try {
-      const response = await axios.get(
-        `https://final-project-5c7aa-default-rtdb.europe-west1.firebasedatabase.app/users/${ctx.id}.json`
-      );
+      const response = await axios.get(`${users_url}${ctx.id}.json`);
       setData({
         firstName: response.data.FirstName,
         lastName: response.data.LastName,
@@ -45,30 +45,18 @@ const Profile = (props) => {
 
   const context2 = (
     <div className={classes.text}>
-      <Typography
-        style={{ marginBottom: "1rem" }}
-        className={classes.textItem}
-        variant="h5"
-        component="h5"
-      >
-        First Name: {data.firstName}
-      </Typography>
-      <Typography
-        style={{ marginBottom: "1rem" }}
-        className={classes.textItem}
-        variant="h5"
-        component="h5"
-      >
-        Last Name: {data.lastName}
-      </Typography>
-      <Typography
-        style={{ marginBottom: "1rem" }}
-        className={classes.textItem}
-        variant="h5"
-        component="h5"
-      >
-        e-mail: {data.email}
-      </Typography>
+      {profileInputs.map((input) => {
+        return (
+          <Typography
+            style={{ marginBottom: "1rem" }}
+            className={classes.textItem}
+            variant="h5"
+            component="h5"
+          >
+            {input.title + ":" + " " + data[input.id]}
+          </Typography>
+        );
+      })}
     </div>
   );
 
@@ -86,6 +74,9 @@ const Profile = (props) => {
             {!loading && context2}
           </div>
         </ProfileCard>
+      </div>
+      <div className={classes.table}>
+        <ProfileTable title={"Track your body weight"} data={[]} />
       </div>
     </div>
   );

@@ -349,6 +349,7 @@ export default function WorkoutsTable() {
                   const labelId = `enhanced-table-checkbox-${index}`;
 
                   return (
+
                     <TableRow
                       hover
                       onClick={(event) => handleClick(event, row.id)}
@@ -375,11 +376,20 @@ export default function WorkoutsTable() {
                       >
                         {row.name}
                       </TableCell>
-                      <TableCell align="right">{row.time}</TableCell>
-                      <TableCell align="right">{row.weight}</TableCell>
-                      <TableCell align="right">{row.num}</TableCell>
-                      <TableCell align="right">{row.rpe}</TableCell>
+                      <TableCell align="right">
+                        {!!row.time ? row.time : ""}
+                      </TableCell>
+                      <TableCell align="right">
+                        {!!row.weight ? row.weight : ""}
+                      </TableCell>
+                      <TableCell align="right">
+                        {!!row.num ? row.num : ""}
+                      </TableCell>
+                      <TableCell align="right">
+                        {!!row.rpe ? row.rpe : ""}
+                      </TableCell>
                     </TableRow>
+
                   );
                 })}
               {emptyRows > 0 && (

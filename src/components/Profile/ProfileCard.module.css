@@ -1,6 +1,7 @@
 .box {
-  width: 30%;
-  height: 70vh;
+  min-width: 30%;
+
+  height: auto;
   background-image: url(../../images/profileCard.jpg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -14,5 +15,5 @@
 
 .context {
 
-  margin-top: 6rem;
+  margin-top: 2rem;
 }

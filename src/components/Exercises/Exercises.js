@@ -1,11 +1,8 @@
 import classes from "./Exercises.module.css";
-import Card from "../Card/Card";
-import Exercise from "./Exercise";
-import AddIcon from "@mui/icons-material/Add";
 import { useContext, useState } from "react";
 import ExerciseInput from "./ExerciseInput";
 import Context from "../../store/context";
-import Button from "@mui/material/Button";
+import ExerciseTable from "./ExerciseTable";
 const Exercises = (props) => {
   const ctx = useContext(Context);
   const [isInput, setIsInput] = useState(false);
@@ -41,31 +38,14 @@ const Exercises = (props) => {
         open={isEdit}
         close={closeHandler}
       />
-      <section className={classes.exercises}>
-        <Card>
-          <ul>
-            {ctx.exercises.length === 0 ? (
-              <h3 style={{ textAlign: "center" }}>No exercises</h3>
-            ) : (
-              ctx.exercises.map((exercise) => {
-                return (
-                  <Exercise
-                    id={exercise.id}
-                    key={exercise.id}
-                    name={exercise.name}
-                    edit={editHandler}
-                  />
-                );
-              })
-            )}
-            <div style={{ textAlign: "center" }}>
-              <Button onClick={addExerciseHandler}>
-                <AddIcon />
-              </Button>
-            </div>
-          </ul>
-        </Card>
-      </section>
+      <div className={classes.exercises}>
+        <ExerciseTable
+          data={ctx.exercises}
+          editHandler={editHandler}
+          addHandler={addExerciseHandler}
+          title={'Exercises'}
+        />
+      </div>
     </div>
   );
 };
