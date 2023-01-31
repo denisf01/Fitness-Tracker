@@ -14,7 +14,7 @@ const WeightData = (props) => {
     <li className={classes.data}>
       <div>
         <h3>
-          {props.date} {props.weight}
+          {props.date} - {props.weight}kg
         </h3>
       </div>
       <div>

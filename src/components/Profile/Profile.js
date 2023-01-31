@@ -11,8 +11,10 @@ import { profileInputs } from "../../constants/profileInputs";
 import ProfileCard from "./ProfileCard";
 import { users_url } from "../../constants/url";
 import ProfileTable from "./ProfileTable";
+import WeightInput from "./WeightInput";
 const Profile = (props) => {
   const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState(false);
   const ctx = useContext(Context);
   const [data, setData] = useState({
     firstName: "Loading...",
@@ -52,6 +54,7 @@ const Profile = (props) => {
             className={classes.textItem}
             variant="h5"
             component="h5"
+            key={Math.random().toString()}
           >
             {input.title + ":" + " " + data[input.id]}
           </Typography>
@@ -59,9 +62,22 @@ const Profile = (props) => {
       })}
     </div>
   );
+  const inputHandler = () => {
+    setOpen(true);
+  };
+  const closeHandler = () => {
+    setOpen(false);
+  };
 
   return (
     <div className={classes.background}>
+      <WeightInput
+        id={"input"}
+        text={"Please enter your weight data"}
+        title={"Enter weight data"}
+        open={open}
+        close={closeHandler}
+      />
       <div className={classes.card}>
         <ProfileCard>
           <div className={classes.icon}>
@@ -76,7 +92,11 @@ const Profile = (props) => {
         </ProfileCard>
       </div>
       <div className={classes.table}>
-        <ProfileTable title={"Track your body weight"} data={[]} />
+        <ProfileTable
+          addHandler={inputHandler}
+          title={"Track your body weight"}
+          data={ctx.weightData}
+        />
       </div>
     </div>
   );

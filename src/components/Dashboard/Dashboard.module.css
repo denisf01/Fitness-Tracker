@@ -9,14 +9,32 @@
 }
 
 .chart {
-  width: 40%;
+  width: 70%;
+  min-width: 13rem;
+  margin: auto;
+}
+.chart2 {
+  width: 40rem;
+  height: 20rem;
+  min-width: 15rem;
   margin: auto;
   position: relative;
-  top: 7rem;
+  top: 15rem;
 }
 .table {
   overflow: hidden;
 }
+
+.workouts {
+  display: inline-block;
+  width: 40%;
+}
+
+.weight {
+  display: inline-block;
+  width: 60%;
+}
+
 @media screen and (max-width: 1150px) {
   .background {
     background-image: url(../../images/dashboard2.jpg);
@@ -28,5 +46,22 @@
   .table {
     overflow-y: hidden;
     overflow-x: scroll;
+  }
+  .workouts {
+    display: block;
+    margin: auto;
+  }
+
+  .weight {
+    display: block;
+    margin: auto;
+  }
+  .chart {
+    position: relative;
+    top: 5rem;
+  }
+  .chart2 {
+    top: 7rem;
+    width: auto;
   }
 }

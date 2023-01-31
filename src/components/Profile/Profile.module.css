@@ -36,7 +36,7 @@
 }
 
 .table {
-  max-width: 60rem;
+  max-width: 40rem;
   width: 90%;
   margin: 15rem auto;
 }
@@ -48,9 +48,14 @@
   margin: 1rem;
   padding-bottom: 1rem;
   border-bottom: 1px solid #ccc;
+
 }
 
 .data h3 {
   margin: 0 0 0.25rem 0;
 }
 
+.date {
+  width: auto;
+  margin: 1rem auto;
+}

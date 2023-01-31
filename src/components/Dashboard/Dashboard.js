@@ -1,8 +1,9 @@
 import classes from "./Dashboard.module.css";
 import React, { useContext } from "react";
 import TotalTable from "./TotalTable";
-import MyChart from "./Chart";
+import MyChart from "./WorkoutChart";
 import Context from "../../store/context";
+import { WeightChart } from "./WeightChart";
 
 const Dashboard = () => {
   const ctx = useContext(Context);
@@ -26,9 +27,16 @@ const Dashboard = () => {
 
   return (
     <div className={classes.background}>
-      <div className={classes.chart}>
-        <TotalTable data={fullData} /> <br /> <br />
-        <MyChart data={fullData} />
+      <div className={classes.workouts}>
+        <div className={classes.chart}>
+          <TotalTable data={fullData} /> <br /> <br />
+          <MyChart data={fullData} />
+        </div>
+      </div>
+      <div className={classes.weight}>
+        <div className={classes.chart2}>
+          <WeightChart />
+        </div>
       </div>
     </div>
   );
