@@ -9,7 +9,7 @@ export const workoutInputs = [
     },
     autoComplete: "",
     register: {
-      required: false,
+      required: true,
       min: 0,
     },
   },

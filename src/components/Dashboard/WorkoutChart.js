@@ -1,7 +1,7 @@
 import React, { useContext } from "react";
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from "chart.js";
 import { Pie } from "react-chartjs-2";
-import { datasets, options } from "../../constants/chartSetup";
+import { datasets, options } from "../../constants/workoutChartSetup";
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 

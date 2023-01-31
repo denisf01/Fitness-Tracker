@@ -1,6 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { users_url } from "../constants/url";
+import { sortDates } from "../constants/functions";
 let logoutTimer;
 
 const Context = React.createContext({
@@ -85,7 +86,7 @@ export const ContextProvider = (props) => {
           };
         });
 
-        setWeightData(initialWeightData);
+        setWeightData(initialWeightData.sort(sortDates));
       })
       .catch(function (error) {
         // handle error
@@ -144,7 +145,12 @@ export const ContextProvider = (props) => {
   const addWeightDataHandler = (data) => {
     const id = (Math.random() + 1).toString(36).substring(7);
     setWeightData((prevState) => {
-      return [{ date: data.date, weight: data.weight, id }, ...prevState];
+      let newState = [
+        { date: data.date, weight: data.weight, id },
+        ...prevState,
+      ];
+      newState = newState.sort(sortDates);
+      return [...newState];
     });
     axios
       .put(users_url + userId + `/weightData/${id}.json`, {

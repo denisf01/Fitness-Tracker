@@ -62,7 +62,7 @@ export default function FormDialog(props) {
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
                 label="Enter date"
-                inputFormat="MM/DD/YYYY"
+                inputFormat="DD/MM/YYYY"
                 value={date}
                 onChange={dateChangeHandler}
                 renderInput={(params) => <TextField {...params} />}
