@@ -36,7 +36,12 @@ export const options = {
     legend: {
       display: true,
       labels: {
-        color: "white",
+        color: "rgb(255,255,255)",
+        font: {
+          size: 16,
+          weight: "bolder",
+
+        },
       },
     },
   },

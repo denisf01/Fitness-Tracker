@@ -7,16 +7,11 @@ export const options = {
       title: {
         display: true,
         text: "Weight(kg)",
-        color: "white",
+        color: 'white'
       },
     },
     x: {
       ticks: { color: "white" },
-      title: {
-        display: true,
-        text: "Date",
-        color: "white",
-      },
     },
   },
   plugins: {
@@ -41,7 +36,7 @@ export const options = {
 
 export const datasets = [
   {
-    label: "Weight(kg)",
+    label: "Dataset 1",
     borderColor: "rgb(255, 99, 132)",
     backgroundColor: "white",
     fill: {
