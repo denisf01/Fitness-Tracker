@@ -16,7 +16,12 @@ import Paper from "@mui/material/Paper";
 import Checkbox from "@mui/material/Checkbox";
 import IconButton from "@mui/material/IconButton";
 import Tooltip from "@mui/material/Tooltip";
-
+import {
+  stableSort,
+  getComparator,
+  createData,
+} from "../../constants/functions";
+import { headCells } from "../../constants/workoutInputs";
 import DeleteIcon from "@mui/icons-material/Delete";
 import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
@@ -26,81 +31,6 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import NewWorkoutModal from "./NewWorkoutModal";
 import Context from "../../store/context";
-function createData(id, name, time, weight, num, rpe) {
-  return {
-    id,
-    name,
-    time,
-    weight,
-    num,
-    rpe,
-  };
-}
-
-function descendingComparator(a, b, orderBy) {
-  if (b[orderBy] < a[orderBy]) {
-    return -1;
-  }
-  if (b[orderBy] > a[orderBy]) {
-    return 1;
-  }
-  return 0;
-}
-
-function getComparator(order, orderBy) {
-  return order === "desc"
-    ? (a, b) => descendingComparator(a, b, orderBy)
-    : (a, b) => -descendingComparator(a, b, orderBy);
-}
-
-// Since 2020 all major browsers ensure sort stability with Array.prototype.sort().
-// stableSort() brings sort stability to non-modern browsers (notably IE11). If you
-// only support modern browsers you can replace stableSort(exampleArray, exampleComparator)
-// with exampleArray.slice().sort(exampleComparator)
-function stableSort(array, comparator) {
-  const stabilizedThis = array.map((el, index) => [el, index]);
-  stabilizedThis.sort((a, b) => {
-    const order = comparator(a[0], b[0]);
-    if (order !== 0) {
-      return order;
-    }
-    return a[1] - b[1];
-  });
-  return stabilizedThis.map((el) => el[0]);
-}
-
-const headCells = [
-  {
-    id: "name",
-    numeric: false,
-    disablePadding: true,
-    label: "Exercise name",
-  },
-  {
-    id: "time",
-    numeric: true,
-    disablePadding: false,
-    label: "Time (s)",
-  },
-  {
-    id: "weight",
-    numeric: true,
-    disablePadding: false,
-    label: "Weight (kg)",
-  },
-  {
-    id: "num",
-    numeric: true,
-    disablePadding: false,
-    label: "Number of repetition",
-  },
-  {
-    id: "rpe",
-    numeric: true,
-    disablePadding: false,
-    label: "RPE",
-  },
-];
 
 function EnhancedTableHead(props) {
   const {
@@ -347,9 +277,18 @@ export default function WorkoutsTable() {
                 .map((row, index) => {
                   const isItemSelected = isSelected(row.id);
                   const labelId = `enhanced-table-checkbox-${index}`;
-
+                  const hours = Math.floor(row.time / 3600);
+                  let tmp = row.time - hours * 3600;
+                  const minutes = Math.floor(tmp / 60);
+                  tmp = tmp - minutes * 60;
+                  const seconds = tmp;
+                  const time =
+                    ("0" + hours).slice(-2) +
+                    ":" +
+                    ("0" + minutes).slice(-2) +
+                    ":" +
+                    ("0" + seconds).slice(-2);
                   return (
-
                     <TableRow
                       hover
                       onClick={(event) => handleClick(event, row.id)}
@@ -377,7 +316,7 @@ export default function WorkoutsTable() {
                         {row.name}
                       </TableCell>
                       <TableCell align="right">
-                        {!!row.time ? row.time : ""}
+                        {!!row.time ? time : ""}{" "}
                       </TableCell>
                       <TableCell align="right">
                         {!!row.weight ? row.weight : ""}
@@ -389,7 +328,6 @@ export default function WorkoutsTable() {
                         {!!row.rpe ? row.rpe : ""}
                       </TableCell>
                     </TableRow>
-
                   );
                 })}
               {emptyRows > 0 && (

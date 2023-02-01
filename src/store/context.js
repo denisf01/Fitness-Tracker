@@ -2,6 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { users_url } from "../constants/url";
 import { sortDates } from "../constants/functions";
+import dayjs from "dayjs";
 let logoutTimer;
 
 const Context = React.createContext({
@@ -98,10 +99,12 @@ export const ContextProvider = (props) => {
         // handle success
 
         initialWorkouts = Object.keys(response.data).map((id) => {
+          const myTime = response.data[id].time;
+          console.log(myTime);
           return {
             id,
             name: response.data[id].name,
-            time: +response.data[id].time,
+            time: response.data[id].time,
             weight: +response.data[id].weight,
             reps: +response.data[id].reps,
             rpe: +response.data[id].rpe,
@@ -165,14 +168,17 @@ export const ContextProvider = (props) => {
       });
   };
   const addWorkoutHandler = (data) => {
-    if (data.time === "0") data.time = "";
+    const time = [data.time.$H, data.time.$m, data.time.$s];
+
+    data.time = time[2] + 60 * time[1] + 3600 * time[0]; // save time in seconds
+
     const id = (Math.random() + 1).toString(36).substring(7);
     setWorkouts((prevState) => {
       return [
         {
           id,
           name: data.exercise,
-          time: +data.time,
+          time: data.time,
           weight: +data.weight,
           reps: +data.reps,
           rpe: +data.rpe,

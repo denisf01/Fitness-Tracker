@@ -19,7 +19,7 @@ export default function TotalTable(props) {
           <TableRow>
             <TableCell>Exercise</TableCell>
             <TableCell>Total workouts</TableCell>
-            <TableCell>Total time(s)</TableCell>
+            <TableCell>Total time(h)</TableCell>
           </TableRow>
           {ctx.workouts.length === 0 && (
             <React.Fragment>

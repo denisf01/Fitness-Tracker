@@ -15,11 +15,14 @@ import { FormControl } from "@mui/material";
 import { InputLabel } from "@mui/material";
 import Box from "@mui/material/Box";
 import { workoutInputs } from "../../constants/workoutInputs";
+import dayjs from "dayjs";
+import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
+import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
+import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 
 export default function NewWorkoutModal(props) {
+  const [value, setValue] = React.useState(dayjs("00:00:00", "HH:mm:ss"));
   const ctx = useContext(Context);
-  const ref = useRef();
-  const [timer, setTimer] = useState(0);
   const [startTimer, setStartTimer] = useState(false);
   const {
     register,
@@ -35,25 +38,29 @@ export default function NewWorkoutModal(props) {
     setStartTimer(false);
   };
   const handleReset = () => {
-    setTimer(0);
-    ref.current.value = 0;
+    setValue(dayjs("00:00:00", "HH:mm:ss"));
   };
   useEffect(() => {
     if (startTimer) {
       setTimeout(() => {
-        setTimer((prevState) => prevState + 1);
+        setValue((prevState) => {
+          const newState = dayjs(
+            `${prevState.$H}:${prevState.$m}:${prevState.$s + 1}`,
+            "HH:mm:ss"
+          );
+
+          return newState;
+        });
       }, 1000);
-      ref.current.value = timer;
     }
-  }, [timer, startTimer]);
+  }, [value, startTimer]);
   const handleClose = () => {
     reset();
     props.close();
   };
 
   const onSubmit = (data) => {
-    data.time = ref.current.value.toString();
-    console.log(data);
+    data.time = value;
     ctx.addWorkout(data);
     reset();
     props.close();
@@ -96,7 +103,21 @@ export default function NewWorkoutModal(props) {
                 <Button onClick={handleStop}>Stop</Button>
                 <Button onClick={handleReset}>Reset</Button>
               </div>
-              <div style={{ textAlign: "center" }}>Time(s)</div>
+              <LocalizationProvider dateAdapter={AdapterDayjs}>
+                <TimePicker
+                  ampm={false}
+                  openTo="hours"
+                  views={["hours", "minutes", "seconds"]}
+                  inputFormat="HH:mm:ss"
+                  mask="__:__:__"
+                  label="Time"
+                  value={value}
+                  onChange={(newValue) => {
+                    setValue(newValue);
+                  }}
+                  renderInput={(params) => <TextField {...params} />}
+                />
+              </LocalizationProvider>
               {workoutInputs.map((input) => {
                 return (
                   <TextField
@@ -106,12 +127,11 @@ export default function NewWorkoutModal(props) {
                         ? ""
                         : input.helperText
                     }
-                    inputRef={input.id === "time" ? ref : null}
                     defaultValue={input.id === "time" ? 0 : null}
                     margin={input.margin}
                     required
                     fullWidth
-                    type={"number"}
+                    type={input.type}
                     InputProps={{
                       inputProps: {
                         ...input.inputProps,

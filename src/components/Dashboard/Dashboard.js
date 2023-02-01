@@ -19,7 +19,7 @@ const Dashboard = () => {
     return {
       name: exercise.name,
       totalNum,
-      totalTime,
+      totalTime: (totalTime / 3600).toFixed(2),
       id: Math.random().toString(),
     };
   });

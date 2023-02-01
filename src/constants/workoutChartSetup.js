@@ -1,6 +1,6 @@
 export const datasets = [
   {
-    label: "Total time(s)",
+    label: "Total time(h)",
     backgroundColor: [
       "rgba(255, 99, 132, 0.9)",
       "rgba(54, 162, 235, 0.9)",
