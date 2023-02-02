@@ -13,13 +13,13 @@ body {
 .text h1 {
   font-size: 50px;
   font-family: "Lucida Console", "Courier New", monospace;
-  text-shadow: 1px 1px 2px black;
+  text-shadow: 2px 1px 2px black;
   animation: text-appear 1s ease-out forwards;
 }
 .text h3 {
   font-size: 30px;
   font-family: "Lucida Console", "Courier New", monospace;
-  text-shadow: 1px 1px 2px black;
+  text-shadow: 2px 1px 2px black;
   animation: text-appear 1s ease-out forwards;
 }
 
@@ -41,6 +41,29 @@ body {
   height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
+}
+
+.login {
+  font-size: 30px;
+  font-family: "Lucida Console", "Courier New", monospace;
+  text-shadow: 2px 1px 2px black;
+  animation: text-appear 5s ease-out forwards;
+  margin-top: 3rem;
+}
+
+.login button {
+  width: 10rem;
+  height: 4rem;
+  margin-top: 1rem;
+  background-color: rgba(0, 0, 0, 0);
+  color: white;
+  font-weight: bold;
+  border-radius: 10px;
+  text-shadow: 2px 1px 2px black;
+  cursor: pointer;
+}
+.login button:hover {
+  background-color: rgba(0, 0, 0, 0.6);
 }
 
 @media screen and (max-width: 800px) {

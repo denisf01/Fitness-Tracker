@@ -44,6 +44,7 @@ export default function FormDialog(props) {
         <DialogContent>
           <DialogContentText>{props.text}</DialogContentText>
           <TextField
+            defaultValue={props.editName}
             error={error}
             onChange={inputChangeHandler}
             autoFocus

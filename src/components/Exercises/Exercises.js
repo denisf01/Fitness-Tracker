@@ -8,6 +8,7 @@ const Exercises = (props) => {
   const [isInput, setIsInput] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
   const [exerciseId, setExerciseId] = useState(null);
+  const [editName, setEditName] = useState("");
   const addExerciseHandler = () => {
     setIsInput(true);
   };
@@ -17,6 +18,8 @@ const Exercises = (props) => {
   };
   const editHandler = (id) => {
     setExerciseId(id);
+    const index = ctx.exercises.findIndex((el) => el.id === id);
+    setEditName(ctx.exercises[index].name);
     setIsEdit(true);
   };
   return (
@@ -31,6 +34,7 @@ const Exercises = (props) => {
       />
       <ExerciseInput
         exerciseId={exerciseId}
+        editName={editName}
         id={"edit"}
         label={"Exercise name"}
         text={"Please enter the new name of the exercise."}
@@ -43,7 +47,7 @@ const Exercises = (props) => {
           data={ctx.exercises}
           editHandler={editHandler}
           addHandler={addExerciseHandler}
-          title={'Exercises'}
+          title={"Exercises"}
         />
       </div>
     </div>
