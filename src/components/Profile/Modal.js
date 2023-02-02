@@ -9,13 +9,16 @@ import DialogTitle from "@mui/material/DialogTitle";
 import { useContext, useState } from "react";
 import { useForm } from "react-hook-form";
 import Box from "@mui/material/Box";
-import { passwordChange_url} from "../../constants/url";
+import { passwordChange_url } from "../../constants/url";
 import axios from "axios";
 import Context from "../../store/context";
 import CustomizedAlert from "../Alert/Alert";
+import { changePassword, loginInputs } from "../../constants/loginInputs";
+import Typography from "@mui/material/Typography";
 
 export default function FormDialog(props) {
   const [success, setIsSuccess] = useState(false);
+  const [error, setError] = useState(null);
   const ctx = useContext(Context);
   const {
     reset,
@@ -25,19 +28,22 @@ export default function FormDialog(props) {
   } = useForm();
   const handleClose = () => {
     props.close();
+    setError(null);
     reset();
   };
   const submitHandler = (data) => {
-    console.log(data);
+    if (data.password !== data.repassword) {
+      setError("Repeat password does not match!");
+      return;
+    }
+    setError(null);
+
     axios
-      .post(
-        passwordChange_url,
-        {
-          idToken: ctx.token,
-          password: data.password,
-          returnSecureToken: true,
-        }
-      )
+      .post(passwordChange_url, {
+        idToken: ctx.token,
+        password: data.password,
+        returnSecureToken: true,
+      })
       .then(function (response) {
         console.log(response);
         const expirationTime = new Date(
@@ -58,6 +64,7 @@ export default function FormDialog(props) {
       })
       .catch(function (error) {
         console.log(error);
+        setError("Login too old! Logout, login and try again!");
       });
   };
 
@@ -65,7 +72,7 @@ export default function FormDialog(props) {
     <div>
       {success && <CustomizedAlert text={"Password changed successfully!"} />}
 
-      <Dialog open={props.open} onClose={props.close}>
+      <Dialog open={props.open} onClose={handleClose}>
         <Box
           component="form"
           noValidate
@@ -76,24 +83,32 @@ export default function FormDialog(props) {
           <DialogContent>
             <DialogContentText>{props.text}</DialogContentText>
 
-            <TextField
-              error={errors.password}
-              helperText={
-                errors.password === undefined
-                  ? ""
-                  : "Password must be at least 6 characters."
-              }
-              autoFocus
-              margin="dense"
-              id="name"
-              label={props.label}
-              type="password"
-              fullWidth
-              variant="standard"
-              autoComplete="password"
-              {...register("password", { required: true, minLength: 6 })}
-            />
+            {changePassword.map((input) => {
+              return (
+                <TextField
+                  error={!!errors[`${input.id}`]}
+                  helperText={
+                    errors[`${input.id}`] === undefined ? "" : input.helperText
+                  }
+                  margin={input.margin}
+                  required
+                  fullWidth
+                  type={input.type}
+                  key={input.id}
+                  id={input.id}
+                  label={input.label}
+                  name={input.id}
+                  autoComplete={input.autoComplete}
+                  {...register(`${input.id}`, {
+                    ...input.register,
+                  })}
+                />
+              );
+            })}
           </DialogContent>
+          <Typography style={{ color: "red", textAlign: "center" }}>
+            {!!error ? error : ""}
+          </Typography>
           <DialogActions>
             <Button onClick={handleClose}>Cancel</Button>
             <Button type={"submit"}>Confirm</Button>

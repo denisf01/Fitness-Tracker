@@ -18,29 +18,13 @@ import { useContext, useState } from "react";
 import { signIn_url, signUp_url, users_url } from "../../constants/url";
 import Context from "../../store/context";
 import CustomizedAlert from "../Alert/Alert";
-function Copyright(props) {
-  return (
-    <Typography
-      variant="body2"
-      color="text.secondary"
-      align="center"
-      {...props}
-    >
-      {"Copyright © "}
-      <Link style={{ color: "inherit" }} to="/">
-        FitnessTracker
-      </Link>{" "}
-      {new Date().getFullYear()}
-      {"."}
-    </Typography>
-  );
-}
+import { Copyright } from "../../constants/functions";
 
 const theme = createTheme();
 
 export default function SignInSide() {
   const ctx = useContext(Context);
-  const [error, setError] = useState(undefined);
+  const [error, setError] = useState(null);
   const [isLogin, setIsLogin] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
   const {
@@ -49,9 +33,14 @@ export default function SignInSide() {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  let url;
 
   const onSubmit = (data) => {
+    if (!isLogin) {
+      if (data.password !== data.repassword) {
+        setError({ type: "password", text: "Repeat password does not match!" });
+        return;
+      }
+    }
     axios
       .post(isLogin ? signIn_url : signUp_url, {
         email: data.email,
@@ -61,7 +50,7 @@ export default function SignInSide() {
       .then(function (response) {
         console.log(response);
 
-        setError(undefined);
+        setError(null);
         if (!isLogin) {
           axios.put(users_url + `${response.data.localId}.json`, {
             FirstName: data.firstname,
@@ -85,8 +74,8 @@ export default function SignInSide() {
       .catch(function (error) {
         console.log(error);
         isLogin
-          ? setError("Invalid email or password.")
-          : setError("Email already exists.");
+          ? setError({ type: "login", text: "Invalid email or password." })
+          : setError({ type: "login", text: "Email already exists!" });
       });
   };
 
@@ -150,7 +139,9 @@ export default function SignInSide() {
             >
               {loginInputs.map((input) => {
                 return (
-                  (input.id === "firstname" || input.id === "lastname"
+                  (input.id === "firstname" ||
+                  input.id === "lastname" ||
+                  input.id === "repassword"
                     ? !isLogin
                     : true) && (
                     <TextField
@@ -163,7 +154,7 @@ export default function SignInSide() {
                       margin={input.margin}
                       required
                       fullWidth
-                      type={input.id}
+                      type={input.type}
                       key={input.id}
                       id={input.id}
                       label={input.label}
@@ -178,7 +169,10 @@ export default function SignInSide() {
               })}
 
               <Typography style={{ color: "red" }}>
-                {!!error ? error : ""}
+                {!!error && error.type === "login" ? error.text : ""}
+              </Typography>
+              <Typography style={{ color: "red" }}>
+                {!!error && error.type === "password" ? error.text : ""}
               </Typography>
               <Button
                 type="submit"

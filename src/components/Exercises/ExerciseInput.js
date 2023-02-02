@@ -12,19 +12,26 @@ import Context from "../../store/context";
 export default function FormDialog(props) {
   const ctx = useContext(Context);
   const [input, setInput] = useState("");
+  const [error, setError] = useState(false);
   const handleClose = () => {
+    setError(false);
     props.close();
   };
   const inputChangeHandler = (event) => {
     setInput(event.target.value);
   };
   const handleSubmit = () => {
+    if (input.toString().length === 0) {
+      setError(true);
+      return;
+    }
+    setError(false);
     if (props.id === "input") {
       ctx.addExercise(input);
       props.close();
       setInput("");
     }
-    if (props.id === 'edit') {
+    if (props.id === "edit") {
       if (!!props.exerciseId) {
         ctx.editExercise(props.exerciseId, input);
       }
@@ -37,6 +44,7 @@ export default function FormDialog(props) {
         <DialogContent>
           <DialogContentText>{props.text}</DialogContentText>
           <TextField
+            error={error}
             onChange={inputChangeHandler}
             autoFocus
             margin="dense"

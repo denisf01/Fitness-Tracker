@@ -20,6 +20,7 @@ export default function FormDialog(props) {
   const [date, setDate] = React.useState(dayjs());
   const [error, setError] = useState(false);
   const handleClose = () => {
+    setError(false);
     props.close();
   };
   const inputChangeHandler = (event) => {

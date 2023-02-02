@@ -1,3 +1,7 @@
+import Typography from "@mui/material/Typography";
+import { Link } from "react-router-dom";
+import * as React from "react";
+
 export const sortDates = (el1, el2) => {
   const dateParts1 = el1.date.split("-");
   const dateParts2 = el2.date.split("-");
@@ -47,4 +51,22 @@ export function stableSort(array, comparator) {
     return a[1] - b[1];
   });
   return stabilizedThis.map((el) => el[0]);
+}
+
+export function Copyright(props) {
+  return (
+    <Typography
+      variant="body2"
+      color="text.secondary"
+      align="center"
+      {...props}
+    >
+      {"Copyright © "}
+      <Link style={{ color: "inherit" }} to="/">
+        FitnessTracker
+      </Link>{" "}
+      {new Date().getFullYear()}
+      {"."}
+    </Typography>
+  );
 }

@@ -24,6 +24,7 @@ export default function NewWorkoutModal(props) {
   const [value, setValue] = React.useState(dayjs("00:00:00", "HH:mm:ss"));
   const ctx = useContext(Context);
   const [startTimer, setStartTimer] = useState(false);
+  const [timeError, setTimeError] = useState(false);
   const {
     register,
     reset,
@@ -56,11 +57,17 @@ export default function NewWorkoutModal(props) {
   }, [value, startTimer]);
   const handleClose = () => {
     reset();
+    setTimeError(false);
     props.close();
   };
 
   const onSubmit = (data) => {
     data.time = value;
+    if (!value.$H && !value.$m && !value.$s) {
+      setTimeError(true);
+      return;
+    }
+    setTimeError(false);
     ctx.addWorkout(data);
     reset();
     props.close();
@@ -117,6 +124,11 @@ export default function NewWorkoutModal(props) {
                   }}
                   renderInput={(params) => <TextField {...params} />}
                 />
+                {timeError && (
+                  <div style={{ textAlign: "center", color: "red" }}>
+                    Please enter valid time
+                  </div>
+                )}
               </LocalizationProvider>
               {workoutInputs.map((input) => {
                 return (

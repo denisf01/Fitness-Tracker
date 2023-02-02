@@ -28,8 +28,15 @@ const Dashboard = () => {
   return (
     <div className={classes.background}>
       <div className={classes.workouts}>
-        <div className={classes.chart}>
-          <TotalTable data={fullData} /> 
+        <div
+          style={
+            ctx.workouts.length === 0
+              ? { backgroundColor: "rgba(0,0,0,0)" }
+              : {}
+          }
+          className={classes.chart}
+        >
+          <TotalTable data={fullData} />
           <MyChart data={fullData} />
         </div>
       </div>
