@@ -3,7 +3,9 @@ import { useContext, useState } from "react";
 import ExerciseInput from "./ExerciseInput";
 import Context from "../../store/context";
 import ExerciseTable from "./ExerciseTable";
+import { useTranslation } from "react-i18next";
 const Exercises = (props) => {
+  const { t } = useTranslation();
   const ctx = useContext(Context);
   const [isInput, setIsInput] = useState(false);
   const [isEdit, setIsEdit] = useState(false);
@@ -26,9 +28,9 @@ const Exercises = (props) => {
     <div className={classes.background}>
       <ExerciseInput
         id={"input"}
-        label={"Exercise name"}
-        text={"Please enter the name of the new exercise."}
-        title={"Add new exercise"}
+        label={t("exerciseName")}
+        text={t("exerciseText")}
+        title={t("exerciseTitle")}
         open={isInput}
         close={closeHandler}
       />
@@ -36,9 +38,9 @@ const Exercises = (props) => {
         exerciseId={exerciseId}
         editName={editName}
         id={"edit"}
-        label={"Exercise name"}
-        text={"Please enter the new name of the exercise."}
-        title={"Edit existing exercise"}
+        label={t("exerciseName")}
+        text={t("newExerciseText")}
+        title={t("newExerciseTitle")}
         open={isEdit}
         close={closeHandler}
       />
@@ -47,7 +49,7 @@ const Exercises = (props) => {
           data={ctx.exercises}
           editHandler={editHandler}
           addHandler={addExerciseHandler}
-          title={"Exercises"}
+          title={t("exercises")}
         />
       </div>
     </div>

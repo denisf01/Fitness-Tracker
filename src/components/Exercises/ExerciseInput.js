@@ -8,8 +8,10 @@ import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { useContext, useState } from "react";
 import Context from "../../store/context";
+import { useTranslation, Trans } from "react-i18next";
 
 export default function FormDialog(props) {
+  const { t } = useTranslation();
   const ctx = useContext(Context);
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
@@ -57,8 +59,10 @@ export default function FormDialog(props) {
           />
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Trans i18nKey={"actionButtons"}>
+            <Button onClick={handleClose}></Button>
+            <Button onClick={handleSubmit}></Button>
+          </Trans>
         </DialogActions>
       </Dialog>
     </div>

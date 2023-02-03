@@ -9,22 +9,27 @@ import Paper from "@mui/material/Paper";
 import classes from "./Dashboard.module.css";
 import { useContext } from "react";
 import Context from "../../store/context";
+import { useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 
 export default function TotalTable(props) {
+  const { t } = useTranslation();
   const ctx = useContext(Context);
   return (
     <TableContainer className={classes.table} component={Paper}>
       <Table sx={{ minWidth: 350 }} aria-label="simple table">
         <TableHead>
           <TableRow>
-            <TableCell>Exercise</TableCell>
-            <TableCell>Total workouts</TableCell>
-            <TableCell>Total time(h)</TableCell>
+            <Trans i18nKey={"dashboardTable"}>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+              <TableCell></TableCell>
+            </Trans>
           </TableRow>
           {ctx.workouts.length === 0 && (
             <React.Fragment>
               <TableCell />
-              <TableCell align={"center"}>No records</TableCell>
+              <TableCell align={"center"}>{t("empty")}</TableCell>
             </React.Fragment>
           )}
         </TableHead>

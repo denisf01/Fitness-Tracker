@@ -15,8 +15,12 @@ import PersonIcon from "@mui/icons-material/Person";
 import { useHistory } from "react-router-dom/cjs/react-router-dom";
 import { useContext } from "react";
 import Context from "../../store/context";
+import ButtonGroup from "@mui/material/ButtonGroup";
+import { lngs } from "../../constants/lngs";
+import { useTranslation } from "react-i18next";
 
 function MainBar() {
+  const { t, i18n } = useTranslation();
   const ctx = useContext(Context);
   const [anchorElNav, setAnchorElNav] = React.useState(null);
   const [anchorElUser, setAnchorElUser] = React.useState(null);
@@ -124,19 +128,38 @@ function MainBar() {
                   key={Math.random().toString()}
                   onClick={exercisesHandler}
                 >
-                  <Typography textAlign="center">Exercises</Typography>
+                  <Typography textAlign="center">{t("exercises")}</Typography>
                 </MenuItem>,
                 <MenuItem
                   key={Math.random().toString()}
                   onClick={workoutsHandler}
                 >
-                  <Typography textAlign="center">Workouts</Typography>
+                  <Typography textAlign="center">{t("workouts")}</Typography>
                 </MenuItem>,
                 <MenuItem
                   key={Math.random().toString()}
                   onClick={dashboardHandler}
                 >
-                  <Typography textAlign="center">Dashboard</Typography>
+                  <Typography textAlign="center">{t("dashboard")}</Typography>
+                </MenuItem>,
+                <MenuItem>
+                  <ButtonGroup
+                    orientation="vertical"
+                    color={"inherit"}
+                    variant="outlined"
+                    aria-label="outlined button group"
+                  >
+                    {Object.keys(lngs).map((lng) => (
+                      <Button
+                        type={"submit"}
+                        key={lng}
+                        onClick={() => i18n.changeLanguage(lng)}
+                        disabled={i18n.resolvedLanguage === lng}
+                      >
+                        {lngs[lng].nativeName}
+                      </Button>
+                    ))}
+                  </ButtonGroup>
                 </MenuItem>,
               ]}
             </Menu>
@@ -160,6 +183,7 @@ function MainBar() {
           >
             Fitness Tracker
           </Typography>
+
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {ctx.isLoggedIn && (
               <React.Fragment>
@@ -167,24 +191,41 @@ function MainBar() {
                   onClick={exercisesHandler}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  Exercises
+                  {t("exercises")}
                 </Button>
                 <Button
                   onClick={workoutsHandler}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  Workouts
+                  {t("workouts")}
                 </Button>
                 <Button
                   onClick={dashboardHandler}
                   sx={{ my: 2, color: "white", display: "block" }}
                 >
-                  Dashboard
+                  {t("dashboard")}
                 </Button>
               </React.Fragment>
             )}
           </Box>
-
+          <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
+            <ButtonGroup
+              color={"inherit"}
+              variant="outlined"
+              aria-label="outlined button group"
+            >
+              {Object.keys(lngs).map((lng) => (
+                <Button
+                  type={"submit"}
+                  key={lng}
+                  onClick={() => i18n.changeLanguage(lng)}
+                  disabled={i18n.resolvedLanguage === lng}
+                >
+                  {lngs[lng].nativeName}
+                </Button>
+              ))}
+            </ButtonGroup>
+          </Box>
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
@@ -209,17 +250,17 @@ function MainBar() {
             >
               {!ctx.isLoggedIn && (
                 <MenuItem onClick={singInHandler}>
-                  <Typography textAlign="center">Sign In</Typography>
+                  <Typography textAlign="center">{t("signIn")}</Typography>
                 </MenuItem>
               )}
               {ctx.isLoggedIn && (
                 <MenuItem onClick={profileHandler}>
-                  <Typography textAlign="center">Profile</Typography>
+                  <Typography textAlign="center">{t("profile")}</Typography>
                 </MenuItem>
               )}
               {ctx.isLoggedIn && (
                 <MenuItem onClick={logOutHandler}>
-                  <Typography textAlign="center">Logout</Typography>
+                  <Typography textAlign="center">{t("logout")}</Typography>
                 </MenuItem>
               )}
             </Menu>
