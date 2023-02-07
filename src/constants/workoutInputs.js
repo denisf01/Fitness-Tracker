@@ -1,10 +1,12 @@
+import i18next from "../i18n/i18n";
+
 export const workoutInputs = [
   {
-    helperText: "Please enter valid weight.",
+    helperText: i18next.t("weightError"),
     margin: "normal",
     type: "number",
     id: "weight",
-    label: "Weight(kg)",
+    label: i18next.t("weightLabel"),
     inputProps: {
       step: 0.1,
     },
@@ -15,14 +17,14 @@ export const workoutInputs = [
     },
   },
   {
-    helperText: "Please enter valid number of repetitions.",
+    helperText: i18next.t("repsError"),
     margin: "normal",
     type: "number",
     id: "reps",
     inputProps: {
       step: 1,
     },
-    label: "Number of repetitions",
+    label: i18next.t("reps"),
     autoComplete: "",
     register: {
       required: false,
@@ -30,14 +32,14 @@ export const workoutInputs = [
     },
   },
   {
-    helperText: "Please enter valid number of RPE scale.",
+    helperText: i18next.t("rpeError"),
     margin: "normal",
     id: "rpe",
     type: "number",
     inputProps: {
       step: 1,
     },
-    label: "RPE (4-10)",
+    label: i18next.t("rpe"),
     autoComplete: "",
     register: {
       required: true,
@@ -52,25 +54,25 @@ export const headCells = [
     id: "name",
     numeric: false,
     disablePadding: true,
-    label: "Exercise name",
+    label: i18next.t("exerciseName"),
   },
   {
     id: "time",
     numeric: true,
     disablePadding: false,
-    label: "Time",
+    label: i18next.t("time"),
   },
   {
     id: "weight",
     numeric: true,
     disablePadding: false,
-    label: "Weight (kg)",
+    label: i18next.t("weightLabel"),
   },
   {
     id: "num",
     numeric: true,
     disablePadding: false,
-    label: "Number of repetition",
+    label: i18next.t("reps"),
   },
   {
     id: "rpe",

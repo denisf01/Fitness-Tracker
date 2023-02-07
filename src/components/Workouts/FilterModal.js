@@ -10,8 +10,10 @@ import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
 import { FormControl } from "@mui/material";
 import { InputLabel } from "@mui/material";
+import { Trans, useTranslation } from "react-i18next";
 export default function FilterModal(props) {
   const ctx = useContext(Context);
+  const { t } = useTranslation();
   const [input, setInput] = useState("");
   const handleClose = () => {
     props.close();
@@ -29,10 +31,12 @@ export default function FilterModal(props) {
         <DialogTitle>{props.title}</DialogTitle>
         <DialogContent>
           <FormControl style={{ marginTop: "5px" }} fullWidth>
-            <InputLabel id="demo-simple-select-label">Exercise</InputLabel>
+            <InputLabel id="demo-simple-select-label">
+              {t("exercises")}
+            </InputLabel>
             <Select
               value={input}
-              label="Exercise"
+              label={t("exercises")}
               onChange={inputChangeHandler}
             >
               {ctx.exercises.map((exercise) => {
@@ -54,13 +58,15 @@ export default function FilterModal(props) {
                 props.close();
               }}
             >
-              Remove filter
+              {t("removeFilter")}
             </Button>
           </FormControl>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Trans i18nKey={"actionButtons"}>
+            <Button onClick={handleClose}></Button>
+            <Button onClick={handleSubmit}></Button>
+          </Trans>
         </DialogActions>
       </Dialog>
     </div>

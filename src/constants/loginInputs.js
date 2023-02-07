@@ -1,10 +1,12 @@
+import i18next from "../i18n/i18n";
+
 export const loginInputs = [
   {
-    helperText: "Please enter valid first name.",
+    helperText: i18next.t("firstNameError"),
     margin: "normal",
     id: "firstname",
     type: "text",
-    label: "First name",
+    label: i18next.t("firstName"),
     autoComplete: "",
     register: {
       required: true,
@@ -13,11 +15,11 @@ export const loginInputs = [
     },
   },
   {
-    helperText: "Please enter valid last name.",
+    helperText: i18next.t("lastNameError"),
     margin: "normal",
     id: "lastname",
     type: "text",
-    label: "Last name",
+    label: i18next.t("lastName"),
     autoComplete: "",
     register: {
       required: true,
@@ -26,11 +28,11 @@ export const loginInputs = [
     },
   },
   {
-    helperText: "Please enter valid e-mail address.",
+    helperText: i18next.t("emailError"),
     margin: "normal",
     id: "email",
     type: "email",
-    label: "Email Address",
+    label: i18next.t("email"),
     autoComplete: "email",
     register: {
       required: true,
@@ -38,10 +40,10 @@ export const loginInputs = [
     },
   },
   {
-    helperText: "Password must be at least 6 characters.",
+    helperText: i18next.t("passwordError"),
     margin: "normal",
     id: "password",
-    label: "Password",
+    label: i18next.t("password"),
     type: "password",
     autoComplete: "password",
     register: {
@@ -50,11 +52,11 @@ export const loginInputs = [
     },
   },
   {
-    helperText: "Password must be at least 6 characters.",
+    helperText: i18next.t("passwordError"),
     margin: "normal",
     id: "repassword",
     type: "password",
-    label: "Repeat Password",
+    label: i18next.t("repasswordLabel"),
     autoComplete: "password",
     register: {
       required: true,
@@ -65,10 +67,10 @@ export const loginInputs = [
 
 export const changePassword = [
   {
-    helperText: "Password must be at least 6 characters.",
+    helperText: i18next.t("passwordError"),
     margin: "normal",
     id: "password",
-    label: "New password",
+    label: i18next.t("newPassword"),
     type: "password",
     autoComplete: "password",
     register: {
@@ -77,10 +79,10 @@ export const changePassword = [
     },
   },
   {
-    helperText: "Password must be at least 6 characters.",
+    helperText: i18next.t("passwordError"),
     margin: "normal",
     id: "repassword",
-    label: "Repeat new password",
+    label: i18next.t("newRepassword"),
     type: "password",
     autoComplete: "password",
     register: {

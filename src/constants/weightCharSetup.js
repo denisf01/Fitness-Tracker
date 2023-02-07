@@ -1,3 +1,5 @@
+import i18next from "../i18n/i18n";
+
 export const options = {
   transition: 0.3,
   responsive: true,
@@ -6,8 +8,8 @@ export const options = {
       ticks: { color: "white" },
       title: {
         display: true,
-        text: "Weight(kg)",
-        color: 'white'
+        text: i18next.t("weightLabel"),
+        color: "white",
       },
     },
     x: {
@@ -28,7 +30,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: "Body weight",
+      text: i18next.t("weightTitle"),
       color: "white",
     },
   },
@@ -36,7 +38,7 @@ export const options = {
 
 export const datasets = [
   {
-    label: "Dataset 1",
+    label: i18next.t("weightLabel"),
     borderColor: "rgb(255, 99, 132)",
     backgroundColor: "white",
     fill: {

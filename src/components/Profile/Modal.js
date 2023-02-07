@@ -15,11 +15,12 @@ import Context from "../../store/context";
 import CustomizedAlert from "../Alert/Alert";
 import { changePassword, loginInputs } from "../../constants/loginInputs";
 import Typography from "@mui/material/Typography";
-
+import { useTranslation } from "react-i18next";
 export default function FormDialog(props) {
   const [success, setIsSuccess] = useState(false);
   const [error, setError] = useState(null);
   const ctx = useContext(Context);
+  const { t } = useTranslation();
   const {
     reset,
     register,
@@ -33,7 +34,7 @@ export default function FormDialog(props) {
   };
   const submitHandler = (data) => {
     if (data.password !== data.repassword) {
-      setError("Repeat password does not match!");
+      setError(t("repassword"));
       return;
     }
     setError(null);
@@ -64,13 +65,13 @@ export default function FormDialog(props) {
       })
       .catch(function (error) {
         console.log(error);
-        setError("Login too old! Logout, login and try again!");
+        setError(t("oldLogin"));
       });
   };
 
   return (
     <div>
-      {success && <CustomizedAlert text={"Password changed successfully!"} />}
+      {success && <CustomizedAlert text={t("passwordChangeSuccess")} />}
 
       <Dialog open={props.open} onClose={handleClose}>
         <Box

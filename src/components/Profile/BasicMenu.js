@@ -5,11 +5,11 @@ import MenuItem from "@mui/material/MenuItem";
 import SettingsIcon from "@mui/icons-material/Settings";
 import { useState } from "react";
 import FormDialog from "./Modal";
-
+import { useTranslation } from "react-i18next";
 export default function BasicMenu() {
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [isPasswordChange, setIsPasswordChange] = useState(false);
-
+  const { t } = useTranslation();
   const open = Boolean(anchorEl);
   const handleClick = (event) => {
     setAnchorEl(event.currentTarget);
@@ -50,7 +50,9 @@ export default function BasicMenu() {
           "aria-labelledby": "basic-button",
         }}
       >
-        <MenuItem onClick={changePasswordHandler}>Change password</MenuItem>
+        <MenuItem onClick={changePasswordHandler}>
+          {t("changePassword")}
+        </MenuItem>
       </Menu>
     </div>
   );

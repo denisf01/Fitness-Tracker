@@ -19,10 +19,12 @@ import dayjs from "dayjs";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
-
+import { useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 export default function NewWorkoutModal(props) {
   const [value, setValue] = React.useState(dayjs("00:00:00", "HH:mm:ss"));
   const ctx = useContext(Context);
+  const { t } = useTranslation();
   const [startTimer, setStartTimer] = useState(false);
   const [timeError, setTimeError] = useState(false);
   const {
@@ -77,7 +79,7 @@ export default function NewWorkoutModal(props) {
   return (
     <div>
       <Dialog open={props.open} onClose={handleClose}>
-        <DialogTitle>Add new workout</DialogTitle>
+        <DialogTitle>{t("newWorkout")}</DialogTitle>
         <DialogContent>
           <Box
             component="form"
@@ -86,9 +88,11 @@ export default function NewWorkoutModal(props) {
             sx={{ mt: 1 }}
           >
             <FormControl style={{ marginTop: "5px" }} fullWidth>
-              <InputLabel id="demo-simple-select-label">Exercise</InputLabel>
+              <InputLabel id="demo-simple-select-label">
+                {t("exercises")}
+              </InputLabel>
               <Select
-                label="Exercise"
+                label={t("exercises")}
                 error={!!errors.exercise}
                 {...register(`exercise`, {
                   required: true,
@@ -126,7 +130,7 @@ export default function NewWorkoutModal(props) {
                 />
                 {timeError && (
                   <div style={{ textAlign: "center", color: "red" }}>
-                    Please enter valid time
+                    {t("validTime")}
                   </div>
                 )}
               </LocalizationProvider>
@@ -162,8 +166,10 @@ export default function NewWorkoutModal(props) {
               })}
             </FormControl>
             <div className={classes.action}>
-              <Button onClick={handleClose}>Cancel</Button>
-              <Button type={"submit"}>Submit</Button>
+              <Trans i18nKey={"actionButtons"}>
+                <Button onClick={handleClose}></Button>
+                <Button type={"submit"}></Button>
+              </Trans>
             </div>
           </Box>
         </DialogContent>

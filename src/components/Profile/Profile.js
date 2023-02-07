@@ -12,14 +12,16 @@ import ProfileCard from "./ProfileCard";
 import { users_url } from "../../constants/url";
 import ProfileTable from "./ProfileTable";
 import WeightInput from "./WeightInput";
+import { useTranslation } from "react-i18next";
 const Profile = (props) => {
   const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
+  const { t } = useTranslation();
   const ctx = useContext(Context);
   const [data, setData] = useState({
-    firstName: "Loading...",
-    lastName: "Loading...",
-    email: "Loading...",
+    firstName: t("loading"),
+    lastName: t("loading"),
+    email: t("loading"),
   });
 
   const fetchUserData = useCallback(async () => {
@@ -73,8 +75,8 @@ const Profile = (props) => {
     <div className={classes.background}>
       <WeightInput
         id={"input"}
-        text={"Please enter your weight data"}
-        title={"Enter weight data"}
+        text={t("weightText")}
+        title={t("weightTitle")}
         open={open}
         close={closeHandler}
       />
@@ -94,7 +96,7 @@ const Profile = (props) => {
       <div className={classes.table}>
         <ProfileTable
           addHandler={inputHandler}
-          title={"Track your body weight"}
+          title={t("trackWeight")}
           data={ctx.weightData}
         />
       </div>

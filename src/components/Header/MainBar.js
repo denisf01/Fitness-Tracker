@@ -142,26 +142,26 @@ function MainBar() {
                 >
                   <Typography textAlign="center">{t("dashboard")}</Typography>
                 </MenuItem>,
-                <MenuItem>
-                  <ButtonGroup
-                    orientation="vertical"
-                    color={"inherit"}
-                    variant="outlined"
-                    aria-label="outlined button group"
-                  >
-                    {Object.keys(lngs).map((lng) => (
-                      <Button
-                        type={"submit"}
-                        key={lng}
-                        onClick={() => i18n.changeLanguage(lng)}
-                        disabled={i18n.resolvedLanguage === lng}
-                      >
-                        {lngs[lng].nativeName}
-                      </Button>
-                    ))}
-                  </ButtonGroup>
-                </MenuItem>,
               ]}
+              <MenuItem key={Math.random().toString()}>
+                <ButtonGroup
+                  orientation="vertical"
+                  color={"inherit"}
+                  variant="outlined"
+                  aria-label="outlined button group"
+                >
+                  {Object.keys(lngs).map((lng) => (
+                    <Button
+                      type={"submit"}
+                      key={lng}
+                      onClick={() => i18n.changeLanguage(lng)}
+                      disabled={i18n.resolvedLanguage === lng}
+                    >
+                      {lngs[lng].nativeName}
+                    </Button>
+                  ))}
+                </ButtonGroup>
+              </MenuItem>
             </Menu>
           </Box>
           <Typography
@@ -249,17 +249,26 @@ function MainBar() {
               onClose={handleCloseUserMenu}
             >
               {!ctx.isLoggedIn && (
-                <MenuItem onClick={singInHandler}>
+                <MenuItem
+                  key={Math.random().toString()}
+                  onClick={singInHandler}
+                >
                   <Typography textAlign="center">{t("signIn")}</Typography>
                 </MenuItem>
               )}
               {ctx.isLoggedIn && (
-                <MenuItem onClick={profileHandler}>
+                <MenuItem
+                  key={Math.random().toString()}
+                  onClick={profileHandler}
+                >
                   <Typography textAlign="center">{t("profile")}</Typography>
                 </MenuItem>
               )}
               {ctx.isLoggedIn && (
-                <MenuItem onClick={logOutHandler}>
+                <MenuItem
+                  key={Math.random().toString()}
+                  onClick={logOutHandler}
+                >
                   <Typography textAlign="center">{t("logout")}</Typography>
                 </MenuItem>
               )}

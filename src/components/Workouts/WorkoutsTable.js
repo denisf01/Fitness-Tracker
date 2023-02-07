@@ -31,7 +31,7 @@ import Button from "@mui/material/Button";
 import AddIcon from "@mui/icons-material/Add";
 import NewWorkoutModal from "./NewWorkoutModal";
 import Context from "../../store/context";
-
+import { useTranslation } from "react-i18next";
 function EnhancedTableHead(props) {
   const {
     onSelectAllClick,
@@ -97,6 +97,7 @@ EnhancedTableHead.propTypes = {
 function EnhancedTableToolbar(props) {
   const ctx = useContext(Context);
   const { numSelected, filter, addWorkout, selected } = props;
+  const { t } = useTranslation();
   const filterHandler = () => {
     filter();
   };
@@ -125,7 +126,7 @@ function EnhancedTableToolbar(props) {
           variant="subtitle1"
           component="div"
         >
-          {numSelected} selected
+          {numSelected} {t("selected")}
         </Typography>
       ) : (
         <Typography
@@ -134,7 +135,7 @@ function EnhancedTableToolbar(props) {
           id="tableTitle"
           component="div"
         >
-          Workouts
+          {t("workouts")}
           <Button onClick={() => addWorkout()}>
             <AddIcon />
           </Button>
@@ -148,7 +149,7 @@ function EnhancedTableToolbar(props) {
           </IconButton>
         </Tooltip>
       ) : (
-        <Tooltip title="Filter list">
+        <Tooltip>
           <IconButton onClick={filterHandler}>
             <FilterListIcon />
           </IconButton>
@@ -164,6 +165,7 @@ EnhancedTableToolbar.propTypes = {
 
 export default function WorkoutsTable() {
   const ctx = useContext(Context);
+  const { t } = useTranslation();
   const [order, setOrder] = React.useState("asc");
   const [openFilter, setOpenFilter] = useState(false);
   const [openAddWorkout, setOpenAddWorkout] = useState(false);
@@ -237,9 +239,9 @@ export default function WorkoutsTable() {
   return (
     <Box sx={{ width: "100%" }}>
       <FilterModal
-        title={"Filter exercises"}
-        text={"Select one exercise"}
-        label={"Exercises"}
+        title={t("filterTitle")}
+        text={t("filterText")}
+        label={t("exercises")}
         open={openFilter}
         close={closeHandler}
         onSubmit={submitHandler}

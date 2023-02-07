@@ -14,6 +14,7 @@ import Typography from "@mui/material/Typography";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import loginImage from "../../images/login-image.jpg";
 import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { signIn_url, signUp_url, users_url } from "../../constants/url";
 import Context from "../../store/context";
 import CustomizedAlert from "../Alert/Alert";
@@ -26,6 +27,7 @@ export default function SignInSide() {
   const [error, setError] = useState(null);
   const [isLogin, setIsLogin] = useState(true);
   const [isSuccess, setIsSuccess] = useState(false);
+  const { t } = useTranslation();
   const {
     reset,
     register,
@@ -36,10 +38,11 @@ export default function SignInSide() {
   const onSubmit = (data) => {
     if (!isLogin) {
       if (data.password !== data.repassword) {
-        setError({ type: "password", text: "Repeat password does not match!" });
+        setError({ type: "password", text: t("repassword") });
         return;
       }
     }
+
     axios
       .post(isLogin ? signIn_url : signUp_url, {
         email: data.email,
@@ -50,6 +53,7 @@ export default function SignInSide() {
         console.log(response);
 
         setError(null);
+
         if (!isLogin) {
           axios.put(users_url + `${response.data.localId}.json`, {
             FirstName: data.firstname,
@@ -73,8 +77,8 @@ export default function SignInSide() {
       .catch(function (error) {
         console.log(error);
         isLogin
-          ? setError({ type: "login", text: "Invalid email or password." })
-          : setError({ type: "login", text: "Email already exists!" });
+          ? setError({ type: "login", text: t("invalidEmailOrPassword") })
+          : setError({ type: "login", text: t("emailExists") });
       });
   };
 
@@ -85,123 +89,127 @@ export default function SignInSide() {
   };
 
   return (
-    <ThemeProvider theme={theme}>
-      <br />
-      {isSuccess && (
-        <CustomizedAlert
-          text={
-            isLogin
-              ? "Logged in successfully. Redirecting..."
-              : "Registered successfully. Redirecting...."
-          }
-        />
-      )}
-      <Grid container component="main" sx={{ height: "100vh" }}>
-        <CssBaseline />
-        <Grid
-          item
-          xs={false}
-          sm={4}
-          md={7}
-          sx={{
-            backgroundImage: `url(${loginImage})`,
-            backgroundRepeat: "no-repeat",
-            backgroundColor: (t) =>
-              t.palette.mode === "light"
-                ? t.palette.grey[50]
-                : t.palette.grey[900],
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        />
-        <Grid item xs={12} sm={8} md={5} component={Paper} elevation={6} square>
-          <Box
+    <div style={{ overflow: "scroll" }}>
+      <ThemeProvider theme={theme}>
+        <br />
+        {isSuccess && (
+          <CustomizedAlert
+            text={isLogin ? t("loginSuccess") : t("registerSuccess")}
+          />
+        )}
+        <Grid container component="main" sx={{ height: "100vh" }}>
+          <CssBaseline />
+          <Grid
+            item
+            xs={false}
+            sm={4}
+            md={7}
             sx={{
-              my: 8,
-              mx: 4,
-              display: "flex",
-              flexDirection: "column",
-              alignItems: "center",
+              backgroundImage: `url(${loginImage})`,
+              backgroundRepeat: "no-repeat",
+              backgroundColor: (t) =>
+                t.palette.mode === "light"
+                  ? t.palette.grey[50]
+                  : t.palette.grey[900],
+              backgroundSize: "cover",
+              backgroundPosition: "center",
             }}
+          />
+          <Grid
+            item
+            xs={12}
+            sm={8}
+            md={5}
+            component={Paper}
+            elevation={6}
+            square
           >
-            <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
-              <LockOutlinedIcon />
-            </Avatar>
-            <Typography component="h1" variant="h5">
-              {isLogin ? "Sign In" : "Sign up"}
-            </Typography>
             <Box
-              component="form"
-              noValidate
-              onSubmit={handleSubmit(onSubmit)}
-              sx={{ mt: 1 }}
+              sx={{
+                my: 8,
+                mx: 4,
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+              }}
             >
-              {loginInputs.map((input) => {
-                return (
-                  (input.id === "firstname" ||
-                  input.id === "lastname" ||
-                  input.id === "repassword"
-                    ? !isLogin
-                    : true) && (
-                    <TextField
-                      error={!!errors[`${input.id}`]}
-                      helperText={
-                        errors[`${input.id}`] === undefined
-                          ? ""
-                          : input.helperText
-                      }
-                      margin={input.margin}
-                      required
-                      fullWidth
-                      type={input.type}
-                      key={input.id}
-                      id={input.id}
-                      label={input.label}
-                      name={input.id}
-                      autoComplete={input.autoComplete}
-                      {...register(`${input.id}`, {
-                        ...input.register,
-                      })}
-                    />
-                  )
-                );
-              })}
-
-              <Typography style={{ color: "red" }}>
-                {!!error && error.type === "login" ? error.text : ""}
+              <Avatar sx={{ m: 1, bgcolor: "secondary.main" }}>
+                <LockOutlinedIcon />
+              </Avatar>
+              <Typography component="h1" variant="h5">
+                {isLogin ? t("signIn") : t("signUp")}
               </Typography>
-              <Typography style={{ color: "red" }}>
-                {!!error && error.type === "password" ? error.text : ""}
-              </Typography>
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                sx={{ mt: 3, mb: 2 }}
+              <Box
+                component="form"
+                noValidate
+                onSubmit={handleSubmit(onSubmit)}
+                sx={{ mt: 1 }}
               >
-                {isLogin ? "Sign in" : "Sign up"}
-              </Button>
-              <Grid container>
-                <Grid item>
-                  <div
-                    onClick={RegisterHandler}
-                    style={{
-                      cursor: "pointer",
-                      color: "#3737F3FF",
-                      textDecoration: "underline 2px",
-                    }}
-                  >
-                    {isLogin
-                      ? "Don't have an account? Sign Up"
-                      : "Already have an account? Sign In"}
-                  </div>
+                {loginInputs.map((input) => {
+                  return (
+                    (input.id === "firstname" ||
+                    input.id === "lastname" ||
+                    input.id === "repassword"
+                      ? !isLogin
+                      : true) && (
+                      <TextField
+                        error={!!errors[`${input.id}`]}
+                        helperText={
+                          errors[`${input.id}`] === undefined
+                            ? ""
+                            : input.helperText
+                        }
+                        margin={input.margin}
+                        required
+                        fullWidth
+                        type={input.type}
+                        key={input.id}
+                        id={input.id}
+                        label={input.label}
+                        name={input.id}
+                        autoComplete={input.autoComplete}
+                        {...register(`${input.id}`, {
+                          ...input.register,
+                        })}
+                      />
+                    )
+                  );
+                })}
+
+                <Typography style={{ color: "red" }}>
+                  {!!error && error.type === "login" ? error.text : ""}
+                </Typography>
+                <Typography style={{ color: "red" }}>
+                  {!!error && error.type === "password" ? error.text : ""}
+                </Typography>
+                <Button
+                  type="submit"
+                  fullWidth
+                  variant="contained"
+                  sx={{ mt: 3, mb: 2 }}
+                >
+                  {isLogin ? t("signIn") : t("signUp")}
+                </Button>
+                <Grid container>
+                  <Grid item>
+                    <div
+                      onClick={RegisterHandler}
+                      style={{
+                        cursor: "pointer",
+                        color: "#3737F3FF",
+                        textDecoration: "underline 2px",
+                      }}
+                    >
+                      {isLogin ? t("signUpMessage") : t("signInMessage")}
+                    </div>
+                  </Grid>
                 </Grid>
-              </Grid>
-              <Copyright sx={{ mt: 5 }} />
+                <Copyright sx={{ mt: 5 }} />
+              </Box>
             </Box>
-          </Box>
+          </Grid>
         </Grid>
-      </Grid>
-    </ThemeProvider>
+      </ThemeProvider>
+    </div>
   );
 }

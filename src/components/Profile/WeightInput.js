@@ -13,9 +13,11 @@ import classes from "./Profile.module.css";
 import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { AdapterDayjs } from "@mui/x-date-pickers/AdapterDayjs";
 import { DesktopDatePicker } from "@mui/x-date-pickers/DesktopDatePicker";
-
+import { useTranslation } from "react-i18next";
+import { Trans } from "react-i18next";
 export default function FormDialog(props) {
   const ctx = useContext(Context);
+  const { t } = useTranslation();
   const [weight, setWeight] = useState("");
   const [date, setDate] = React.useState(dayjs());
   const [error, setError] = useState(false);
@@ -54,7 +56,7 @@ export default function FormDialog(props) {
             autoFocus
             margin="dense"
             id="name"
-            label="Weight(kg)"
+            label={t("weightLabel")}
             type="number"
             fullWidth
             variant="standard"
@@ -62,7 +64,7 @@ export default function FormDialog(props) {
           <div className={classes.date}>
             <LocalizationProvider dateAdapter={AdapterDayjs}>
               <DesktopDatePicker
-                label="Enter date"
+                label={t("dateLabel")}
                 inputFormat="DD/MM/YYYY"
                 value={date}
                 onChange={dateChangeHandler}
@@ -72,8 +74,10 @@ export default function FormDialog(props) {
           </div>
         </DialogContent>
         <DialogActions>
-          <Button onClick={handleClose}>Cancel</Button>
-          <Button onClick={handleSubmit}>Submit</Button>
+          <Trans i18nKey={"actionButtons"}>
+            <Button onClick={handleClose}></Button>
+            <Button onClick={handleSubmit}></Button>
+          </Trans>
         </DialogActions>
       </Dialog>
     </div>

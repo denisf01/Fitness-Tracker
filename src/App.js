@@ -5,6 +5,7 @@ import Context from "./store/context";
 import { useContext } from "react";
 import Header from "./components/Header/Header";
 import { pages } from "./constants/pages";
+
 function App() {
   const ctx = useContext(Context);
   return (

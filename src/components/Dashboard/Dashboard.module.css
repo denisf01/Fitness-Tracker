@@ -50,6 +50,7 @@
   .table {
     overflow-y: hidden;
     overflow-x: scroll;
+
   }
   .workouts {
     display: block;
@@ -63,6 +64,7 @@
   .chart {
     position: relative;
     top: 5rem;
+    width: 100%;
   }
   .chart2 {
     top: 7rem;

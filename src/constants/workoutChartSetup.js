@@ -1,6 +1,8 @@
+import i18next from "../i18n/i18n";
+
 export const datasets = [
   {
-    label: "Total time(h)",
+    label: i18next.t("totalTime"),
     backgroundColor: [
       "rgba(255, 99, 132, 0.9)",
       "rgba(54, 162, 235, 0.9)",
@@ -40,7 +42,6 @@ export const options = {
         font: {
           size: 16,
           weight: "bolder",
-
         },
       },
     },

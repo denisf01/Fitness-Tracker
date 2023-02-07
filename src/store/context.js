@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { users_url } from "../constants/url";
 import { sortDates } from "../constants/functions";
-import dayjs from "dayjs";
+
 let logoutTimer;
 
 const Context = React.createContext({
@@ -99,8 +99,6 @@ export const ContextProvider = (props) => {
         // handle success
 
         initialWorkouts = Object.keys(response.data).map((id) => {
-          const myTime = response.data[id].time;
-          console.log(myTime);
           return {
             id,
             name: response.data[id].name,
@@ -241,6 +239,8 @@ export const ContextProvider = (props) => {
     setId(null);
     localStorage.clear();
     setExercises([]);
+    setWorkouts([]);
+    setWeightData([]);
     setIsLoggedOut(true);
     setTimeout(() => {
       setIsLoggedOut(false);
