@@ -89,7 +89,7 @@ export default function SignInSide() {
   };
 
   return (
-    <div style={{ overflow: "scroll" }}>
+    <div style={{ overflow: "auto" }}>
       <ThemeProvider theme={theme}>
         <br />
         {isSuccess && (

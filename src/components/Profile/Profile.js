@@ -9,37 +9,35 @@ import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
 import { profileInputs } from "../../constants/profileInputs";
 import ProfileCard from "./ProfileCard";
-import { users_url } from "../../constants/url";
 import ProfileTable from "./ProfileTable";
 import WeightInput from "./WeightInput";
 import { useTranslation } from "react-i18next";
 const Profile = (props) => {
-  const [loading, setLoading] = useState(false);
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const ctx = useContext(Context);
-  const [data, setData] = useState({
-    firstName: t("loading"),
-    lastName: t("loading"),
-    email: t("loading"),
-  });
+  // const [data, setData] = useState({
+  //   firstName: t("loading"),
+  //   lastName: t("loading"),
+  //   email: t("loading"),
+  // });
 
-  const fetchUserData = useCallback(async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(`${users_url}${ctx.id}.json`);
-      setData({
-        firstName: response.data.FirstName,
-        lastName: response.data.LastName,
-        email: response.data.email,
-      });
-    } catch (error) {}
-    setLoading(false);
-  }, [ctx.id]);
-
-  useEffect(() => {
-    fetchUserData();
-  }, [fetchUserData]);
+  // const fetchUserData = useCallback(async () => {
+  //   setLoading(true);
+  //   try {
+  //     const response = await axios.get(`${users_url}${ctx.id}.json`);
+  //     setData({
+  //       firstName: response.data.FirstName,
+  //       lastName: response.data.LastName,
+  //       email: response.data.email,
+  //     });
+  //   } catch (error) {}
+  //   setLoading(false);
+  // }, [ctx.id]);
+  //
+  // useEffect(() => {
+  //   fetchUserData();
+  // }, [fetchUserData]);
 
   const context1 = (
     <Box className={classes.loading} sx={{ display: "flex" }}>
@@ -58,7 +56,7 @@ const Profile = (props) => {
             component="h5"
             key={Math.random().toString()}
           >
-            {input.title + ":" + " " + data[input.id]}
+            {input.title + ":" + " " + ctx.user[input.id]}
           </Typography>
         );
       })}
@@ -83,13 +81,13 @@ const Profile = (props) => {
       <div className={classes.card}>
         <ProfileCard>
           <div className={classes.icon}>
-            <Avatar sx={{ width: 56, height: 56, bgcolor: deepOrange[500] }}>
-              U
-            </Avatar>
+            <Avatar
+              src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg"
+              sx={{ width: 56, height: 56, bgcolor: deepOrange[500] }}
+            ></Avatar>
           </div>
           <div className={classes.text}>
-            {loading && context1}
-            {!loading && context2}
+            {!ctx.user.firstName ? context1 : context2}
           </div>
         </ProfileCard>
       </div>

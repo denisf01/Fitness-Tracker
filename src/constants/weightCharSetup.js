@@ -30,7 +30,7 @@ export const options = {
     },
     title: {
       display: true,
-      text: i18next.t("weightTitle"),
+      text: i18next.t("bodyWeight"),
       color: "white",
     },
   },

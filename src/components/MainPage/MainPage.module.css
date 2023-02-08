@@ -20,13 +20,24 @@ body {
   font-size: 30px;
   font-family: "Lucida Console", "Courier New", monospace;
   text-shadow: 2px 1px 2px black;
-  animation: text-appear 1s ease-out forwards;
+  animation: text-appear2 1s ease-out forwards;
 }
 
 @keyframes text-appear {
   from {
     opacity: 0;
     transform: translateY(3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes text-appear2 {
+  from {
+    opacity: 0;
+    transform: translateY(-3rem);
   }
 
   to {

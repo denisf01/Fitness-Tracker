@@ -35,7 +35,11 @@ export default function FormDialog(props) {
     }
     setError(false);
     const dateStr =
-      date.get("date") + "-" + (date.get("month") + 1) + "-" + date.get("year");
+      ("0" + date.get("date")).slice(-2) +
+      "-" +
+      ("0" + (date.get("month") + 1)).slice(-2) +
+      "-" +
+      date.get("year");
     ctx.addWeightData({
       date: dateStr,
       weight,

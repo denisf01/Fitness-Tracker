@@ -13,6 +13,7 @@ const Context = React.createContext({
   logout: () => {},
   isLoggedOut: false,
   exercises: [],
+  user: [],
   weightData: [],
   addWeightData: (data) => {},
   deleteWeightData: (id) => {},
@@ -54,6 +55,11 @@ export const ContextProvider = (props) => {
   const userId = localStorage.getItem("userId");
   const [exercises, setExercises] = useState([]);
   const [workouts, setWorkouts] = useState([]);
+  const [user, setUser] = useState({
+    firstName: null,
+    lastName: null,
+    email: null,
+  });
   const [weightData, setWeightData] = useState([]);
   let initialExercises;
   let initialWorkouts;
@@ -110,6 +116,20 @@ export const ContextProvider = (props) => {
         });
 
         setWorkouts(initialWorkouts);
+      })
+      .catch(function (error) {
+        // handle error
+        console.log(error);
+      });
+    axios
+      .get(users_url + userId + ".json")
+      .then(function (response) {
+        // handle success
+        setUser({
+          firstName: response.data.FirstName,
+          lastName: response.data.LastName,
+          email: response.data.email,
+        });
       })
       .catch(function (error) {
         // handle error
@@ -270,6 +290,7 @@ export const ContextProvider = (props) => {
     exercises,
     workouts,
     weightData,
+    user,
     addWeightData: addWeightDataHandler,
     deleteWeightData: deleteWeightDataHandler,
     addExercise: addExerciseHandler,

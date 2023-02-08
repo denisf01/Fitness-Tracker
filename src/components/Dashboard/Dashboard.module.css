@@ -4,7 +4,7 @@
   height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 
@@ -55,11 +55,13 @@
   .workouts {
     display: block;
     margin: auto;
+    width: 80%;
   }
 
   .weight {
     display: block;
     margin: auto;
+    width: 90%;
   }
   .chart {
     position: relative;
@@ -69,5 +71,7 @@
   .chart2 {
     top: 7rem;
     width: auto;
+
+
   }
 }
