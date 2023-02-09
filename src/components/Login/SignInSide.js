@@ -50,7 +50,6 @@ export default function SignInSide() {
         returnSecureToken: true,
       })
       .then(function (response) {
-        console.log(response);
 
         setError(null);
 
@@ -75,7 +74,6 @@ export default function SignInSide() {
         }, 2000);
       })
       .catch(function (error) {
-        console.log(error);
         isLogin
           ? setError({ type: "login", text: t("invalidEmailOrPassword") })
           : setError({ type: "login", text: t("emailExists") });

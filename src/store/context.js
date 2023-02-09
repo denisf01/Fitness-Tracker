@@ -156,9 +156,7 @@ export const ContextProvider = (props) => {
       .put(users_url + userId + `/exercises/${id}.json`, {
         name,
       })
-      .then(function (response) {
-        console.log(response);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
@@ -167,8 +165,8 @@ export const ContextProvider = (props) => {
     const id = (Math.random() + 1).toString(36).substring(7);
     setWeightData((prevState) => {
       let newState = [
-        { date: data.date, weight: data.weight, id },
         ...prevState,
+        { date: data.date, weight: data.weight, id },
       ];
       newState = newState.sort(sortDates);
       return [...newState];
@@ -178,9 +176,7 @@ export const ContextProvider = (props) => {
         date: data.date,
         weight: data.weight,
       })
-      .then(function (response) {
-        console.log(response);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
@@ -212,9 +208,7 @@ export const ContextProvider = (props) => {
         reps: data.reps,
         rpe: data.rpe,
       })
-      .then(function (response) {
-        console.log(response);
-      })
+      .then(function (response) {})
       .catch(function (error) {
         console.log(error);
       });
@@ -222,25 +216,19 @@ export const ContextProvider = (props) => {
   const deleteExerciseHandler = (id) => {
     const newExercises = exercises.filter((exercise) => exercise.id !== id);
     setExercises(newExercises);
-    axios
-      .delete(users_url + userId + `/exercises/${id}.json`)
-      .then(() => console.log("Deleted"));
+    axios.delete(users_url + userId + `/exercises/${id}.json`);
   };
   const deleteWeightDataHandler = (id) => {
     const newWeightData = weightData.filter((data) => data.id !== id);
     setWeightData(newWeightData);
-    axios
-      .delete(users_url + userId + `/weightData/${id}.json`)
-      .then(() => console.log("Deleted"));
+    axios.delete(users_url + userId + `/weightData/${id}.json`);
   };
 
   const deleteWorkoutHandler = (ids) => {
     const newWorkouts = workouts.filter((workout) => !ids.includes(workout.id));
     setWorkouts(newWorkouts);
     for (const id of ids) {
-      axios
-        .delete(users_url + userId + `/workouts/${id}.json`)
-        .then(() => console.log("Deleted"));
+      axios.delete(users_url + userId + `/workouts/${id}.json`);
     }
   };
   const editExerciseHandler = (id, input) => {
@@ -250,9 +238,7 @@ export const ContextProvider = (props) => {
       newState[index].name = input;
       return newState;
     });
-    axios
-      .put(users_url + userId + `/exercises/${id}.json`, { name: input })
-      .then((res) => console.log(res));
+    axios.put(users_url + userId + `/exercises/${id}.json`, { name: input });
   };
   const logoutHandler = useCallback(() => {
     setToken(null);

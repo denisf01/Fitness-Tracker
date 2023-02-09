@@ -154,7 +154,10 @@ function MainBar() {
                     <Button
                       type={"submit"}
                       key={lng}
-                      onClick={() => i18n.changeLanguage(lng)}
+                      onClick={() => {
+                        i18n.changeLanguage(lng);
+                        window.location.reload(false);
+                      }}
                       disabled={i18n.resolvedLanguage === lng}
                     >
                       {lngs[lng].nativeName}
@@ -218,7 +221,10 @@ function MainBar() {
                 <Button
                   type={"submit"}
                   key={lng}
-                  onClick={() => i18n.changeLanguage(lng)}
+                  onClick={() => {
+                    i18n.changeLanguage(lng);
+                    window.location.reload(false);
+                  }}
                   disabled={i18n.resolvedLanguage === lng}
                 >
                   {lngs[lng].nativeName}

@@ -33,7 +33,6 @@ export default function NewWorkoutModal(props) {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  console.log(errors);
   const handleStart = () => {
     setStartTimer(true);
   };
@@ -110,9 +109,9 @@ export default function NewWorkoutModal(props) {
                 })}
               </Select>
               <div style={{ width: "auto", margin: "auto" }}>
-                <Button onClick={handleStart}>Start</Button>
-                <Button onClick={handleStop}>Stop</Button>
-                <Button onClick={handleReset}>Reset</Button>
+                {!startTimer && <Button onClick={handleStart}>Start</Button>}
+                {startTimer && <Button onClick={handleStop}>Stop</Button>}
+                {!startTimer && <Button onClick={handleReset}>Reset</Button>}
               </div>
               <LocalizationProvider dateAdapter={AdapterDayjs}>
                 <TimePicker

@@ -46,7 +46,6 @@ export default function FormDialog(props) {
         returnSecureToken: true,
       })
       .then(function (response) {
-        console.log(response);
         const expirationTime = new Date(
           new Date().getTime() + +response.data.expiresIn * 1000
         );
@@ -64,7 +63,6 @@ export default function FormDialog(props) {
         }, 3000);
       })
       .catch(function (error) {
-        console.log(error);
         setError(t("oldLogin"));
       });
   };
