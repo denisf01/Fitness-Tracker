@@ -272,10 +272,10 @@ export default function WorkoutDetailTable(props) {
         />
         <TableContainer>
           <Table
-            sx={{ minWidth: 750 }}
             aria-labelledby="tableTitle"
             size={"medium"}
           >
+
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}

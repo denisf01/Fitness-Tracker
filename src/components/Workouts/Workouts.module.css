@@ -1,9 +1,11 @@
 .table {
   max-width: 70%;
+
   margin: auto;
   position: relative;
   top: 10rem;
 }
+
 .workout {
   display: flex;
   justify-content: space-between;
@@ -12,7 +14,7 @@
   border-bottom: 1px solid #ccc;
   cursor: pointer;
 }
-.workout:hover{
+.workout:hover {
   background-color: #efefef;
   border-radius: 10px;
 }
@@ -54,4 +56,12 @@
     opacity: 1;
     transform: translateY(0);
   }
+}
+
+@media screen and (max-width: 800px) {
+  .table {
+    max-width: 100%;
+    height: auto;
+  }
+
 }
