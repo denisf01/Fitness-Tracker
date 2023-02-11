@@ -25,6 +25,8 @@ i18next
           newExerciseTitle: "Edit existing exercise",
           newExerciseText: "Please enter the new name of the exercise.",
           exercises: "Exercises",
+          reqExercises: "Exercises*",
+          reqTime: "Time*",
           actionButtons:
             "<0 onClick={handleClose}>Cancel</0>\n" +
             "            <1 onClick={handleSubmit}>Submit</1>",
@@ -145,6 +147,8 @@ i18next
           rpe: "RPE (4-10)",
           time: "Vrijeme",
           bodyWeight: "Tjelesna kilaža",
+          reqExercises: "Vježbe*",
+          reqTime: "Vrijeme*",
         },
       },
     },

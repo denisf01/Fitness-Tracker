@@ -88,11 +88,12 @@ export default function NewWorkoutModal(props) {
           >
             <FormControl style={{ marginTop: "5px" }} fullWidth>
               <InputLabel id="demo-simple-select-label">
-                {t("exercises")}
+                {t("reqExercises")}
               </InputLabel>
               <Select
-                label={t("exercises")}
+                label={t("reqExercises")}
                 error={!!errors.exercise}
+                required={true}
                 {...register(`exercise`, {
                   required: true,
                 })}
@@ -120,7 +121,8 @@ export default function NewWorkoutModal(props) {
                   views={["hours", "minutes", "seconds"]}
                   inputFormat="HH:mm:ss"
                   mask="__:__:__"
-                  label="Time"
+                  required={true}
+                  label={t("reqTime")}
                   value={value}
                   onChange={(newValue) => {
                     setValue(newValue);
@@ -144,7 +146,7 @@ export default function NewWorkoutModal(props) {
                     }
                     defaultValue={input.id === "time" ? 0 : null}
                     margin={input.margin}
-                    required
+                    required={input.required}
                     fullWidth
                     type={input.type}
                     InputProps={{

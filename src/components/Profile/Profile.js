@@ -82,7 +82,7 @@ const Profile = (props) => {
         <ProfileCard>
           <div className={classes.icon}>
             <Avatar
-              src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg"
+              // src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg"
               sx={{ width: 56, height: 56, bgcolor: deepOrange[500] }}
             ></Avatar>
           </div>

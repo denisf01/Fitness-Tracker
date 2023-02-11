@@ -6,6 +6,7 @@ export const workoutInputs = [
     margin: "normal",
     type: "number",
     id: "weight",
+    required: false,
     label: i18next.t("weightLabel"),
     inputProps: {
       step: 0.1,
@@ -21,6 +22,7 @@ export const workoutInputs = [
     margin: "normal",
     type: "number",
     id: "reps",
+    required: false,
     inputProps: {
       step: 1,
     },
@@ -36,6 +38,7 @@ export const workoutInputs = [
     margin: "normal",
     id: "rpe",
     type: "number",
+    required: true,
     inputProps: {
       step: 1,
     },
