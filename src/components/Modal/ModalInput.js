@@ -6,13 +6,10 @@ import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useContext, useState } from "react";
-import Context from "../../store/context";
-import { useTranslation, Trans } from "react-i18next";
+import { useState } from "react";
+import { Trans } from "react-i18next";
 
 export default function FormDialog(props) {
-  const { t } = useTranslation();
-  const ctx = useContext(Context);
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
   const handleClose = () => {
@@ -29,13 +26,13 @@ export default function FormDialog(props) {
     }
     setError(false);
     if (props.id === "input") {
-      ctx.addExercise(input);
+      props.onSubmit(input);
       props.close();
       setInput("");
     }
     if (props.id === "edit") {
       if (!!props.exerciseId) {
-        ctx.editExercise(props.exerciseId, input);
+        props.onSubmit(props.exerciseId, input);
       }
     }
   };

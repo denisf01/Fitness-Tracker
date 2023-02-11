@@ -4,6 +4,18 @@
   position: relative;
   top: 10rem;
 }
+.workout {
+  display: flex;
+  justify-content: space-between;
+  margin: 1rem;
+  padding: 0.5rem;
+  border-bottom: 1px solid #ccc;
+  cursor: pointer;
+}
+.workout:hover{
+  background-color: #efefef;
+  border-radius: 10px;
+}
 
 .action {
   position: relative;
@@ -16,4 +28,30 @@
   height: 100vh;
   background-repeat: no-repeat;
   background-size: cover;
+}
+.workouts {
+  max-width: 60rem;
+  width: 90%;
+  margin: 10rem auto;
+  animation: workouts-appear 1s ease-out forwards;
+}
+.workout h3 {
+  margin: 0 0 0.25rem 0;
+}
+.workouts ul {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+@keyframes workouts-appear {
+  from {
+    opacity: 0;
+    transform: translateY(3rem);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }

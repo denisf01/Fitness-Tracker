@@ -21,8 +21,10 @@ const Context = React.createContext({
   deleteExercise: (id) => {},
   editExercise: (id, input) => {},
   workouts: [],
-  addWorkout: (data) => {},
+  addWorkout: (name) => {},
+  addWorkoutDetail: (parentId, data) => {},
   deleteWorkout: (id) => {},
+  deleteWorkoutDetail: (parentId, id) => {},
 });
 
 const calculateRemainingTime = (expirationTime) => {
@@ -103,19 +105,31 @@ export const ContextProvider = (props) => {
       .get(users_url + userId + "/workouts.json")
       .then(function (response) {
         // handle success
-
+        console.log(response.data);
         initialWorkouts = Object.keys(response.data).map((id) => {
+          const details = response.data[id].details;
+          let detailsArray;
+          if (!!details) detailsArray = Object.keys(response.data[id].details);
+          else detailsArray = [];
+
           return {
             id,
             name: response.data[id].name,
-            time: response.data[id].time,
-            weight: +response.data[id].weight,
-            reps: +response.data[id].reps,
-            rpe: +response.data[id].rpe,
+            details: detailsArray.map((id2) => {
+              return {
+                id: id2,
+                exerciseName: response.data[id].details[id2].exerciseName,
+                time: response.data[id].details[id2].time,
+                weight: +response.data[id].details[id2].weight,
+                reps: +response.data[id].details[id2].reps,
+                rpe: +response.data[id].details[id2].rpe,
+              };
+            }),
           };
         });
 
         setWorkouts(initialWorkouts);
+        console.log(initialWorkouts);
       })
       .catch(function (error) {
         // handle error
@@ -181,32 +195,59 @@ export const ContextProvider = (props) => {
         console.log(error);
       });
   };
-  const addWorkoutHandler = (data) => {
+  const addWorkoutHandler = (name) => {
+    const id = (Math.random() + 1).toString(36).substring(7);
+    setWorkouts((prevState) => {
+      return [...prevState, { id, name, details: [] }];
+    });
+    axios
+      .put(users_url + userId + `/workouts/${id}.json`, {
+        name: name,
+      })
+      .then(function (response) {})
+      .catch(function (error) {
+        console.log(error);
+      });
+  };
+  const addWorkoutDetailHandler = (parentId, data) => {
     const time = [data.time.$H, data.time.$m, data.time.$s];
 
     data.time = time[2] + 60 * time[1] + 3600 * time[0]; // save time in seconds
 
     const id = (Math.random() + 1).toString(36).substring(7);
     setWorkouts((prevState) => {
-      return [
+      // return [
+      //   {
+      //     id,
+      //     name: data.exercise,
+      //     time: data.time,
+      //     weight: +data.weight,
+      //     reps: +data.reps,
+      //     rpe: +data.rpe,
+      //   },
+      //   ...prevState,
+      // ];
+      const index = prevState.findIndex((el) => el.id === parentId);
+      prevState[index].details = [
+        ...prevState[index].details,
         {
           id,
-          name: data.exercise,
+          exerciseName: data.exercise,
           time: data.time,
           weight: +data.weight,
           reps: +data.reps,
           rpe: +data.rpe,
         },
-        ...prevState,
       ];
+      return [...prevState];
     });
     axios
-      .put(users_url + userId + `/workouts/${id}.json`, {
-        name: data.exercise,
+      .put(users_url + userId + `/workouts/${parentId}/details/${id}.json`, {
+        exerciseName: data.exercise,
         time: data.time,
-        weight: data.weight,
-        reps: data.reps,
-        rpe: data.rpe,
+        weight: +data.weight,
+        reps: +data.reps,
+        rpe: +data.rpe,
       })
       .then(function (response) {})
       .catch(function (error) {
@@ -224,11 +265,32 @@ export const ContextProvider = (props) => {
     axios.delete(users_url + userId + `/weightData/${id}.json`);
   };
 
-  const deleteWorkoutHandler = (ids) => {
-    const newWorkouts = workouts.filter((workout) => !ids.includes(workout.id));
+  // const deleteWorkoutHandler = (ids) => {
+  //   const newWorkouts = workouts.filter((workout) => !ids.includes(workout.id));
+  //   setWorkouts(newWorkouts);
+  //   for (const id of ids) {
+  //     axios.delete(users_url + userId + `/workouts/${id}.json`);
+  //   }
+  // };
+  const deleteWorkoutHandler = (id) => {
+    const newWorkouts = workouts.filter((workout) => workout.id !== id);
     setWorkouts(newWorkouts);
+
+    axios.delete(users_url + userId + `/workouts/${id}.json`);
+  };
+
+  const deleteWorkoutDetailHandler = (parentId, ids) => {
+    setWorkouts((prevState) => {
+      const index = prevState.findIndex((el) => el.id === parentId);
+      prevState[index].details = prevState[index].details.filter(
+        (workout) => !ids.includes(workout.id)
+      );
+      return [...prevState];
+    });
     for (const id of ids) {
-      axios.delete(users_url + userId + `/workouts/${id}.json`);
+      axios.delete(
+        users_url + userId + `/workouts/${parentId}/details/${id}.json`
+      );
     }
   };
   const editExerciseHandler = (id, input) => {
@@ -284,6 +346,8 @@ export const ContextProvider = (props) => {
     editExercise: editExerciseHandler,
     addWorkout: addWorkoutHandler,
     deleteWorkout: deleteWorkoutHandler,
+    addWorkoutDetail: addWorkoutDetailHandler,
+    deleteWorkoutDetail: deleteWorkoutDetailHandler,
   };
   useEffect(() => {
     if (tokenData) {

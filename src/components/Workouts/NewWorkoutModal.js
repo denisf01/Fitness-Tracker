@@ -21,9 +21,11 @@ import { LocalizationProvider } from "@mui/x-date-pickers/LocalizationProvider";
 import { TimePicker } from "@mui/x-date-pickers/TimePicker";
 import { useTranslation } from "react-i18next";
 import { Trans } from "react-i18next";
+import { useParams } from "react-router-dom";
 export default function NewWorkoutModal(props) {
   const [value, setValue] = React.useState(dayjs("00:00:00", "HH:mm:ss"));
   const ctx = useContext(Context);
+  const params = useParams();
   const { t } = useTranslation();
   const [startTimer, setStartTimer] = useState(false);
   const [timeError, setTimeError] = useState(false);
@@ -69,7 +71,7 @@ export default function NewWorkoutModal(props) {
       return;
     }
     setTimeError(false);
-    ctx.addWorkout(data);
+    ctx.addWorkoutDetail(params.workoutId, data);
     reset();
     props.close();
     // props.onSubmit();
