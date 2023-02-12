@@ -105,7 +105,6 @@ export const ContextProvider = (props) => {
       .get(users_url + userId + "/workouts.json")
       .then(function (response) {
         // handle success
-        console.log(response.data);
         initialWorkouts = Object.keys(response.data).map((id) => {
           const details = response.data[id].details;
           let detailsArray;
@@ -129,7 +128,6 @@ export const ContextProvider = (props) => {
         });
 
         setWorkouts(initialWorkouts);
-        console.log(initialWorkouts);
       })
       .catch(function (error) {
         // handle error
