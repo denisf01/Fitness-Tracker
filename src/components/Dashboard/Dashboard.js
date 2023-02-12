@@ -7,17 +7,14 @@ import { WeightChart } from "./WeightChart";
 
 const Dashboard = () => {
   const ctx = useContext(Context);
-  let fullData = ctx.exercises.map((exercise) => {
-    let totalNum = 0;
+  let fullData = ctx.workouts.map((workout) => {
+    let totalNum = workout.details.length;
     let totalTime = 0;
-    for (const f of ctx.workouts) {
-      if (exercise.name === f.name) {
-        ++totalNum;
-        totalTime += +f.time;
-      }
+    for (const f of workout.details) {
+      totalTime += f.time;
     }
     return {
-      name: exercise.name,
+      name: workout.name,
       totalNum,
       totalTime: (totalTime / 3600).toFixed(2),
       id: Math.random().toString(),

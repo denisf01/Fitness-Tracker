@@ -26,7 +26,8 @@
   border-radius: 10px;
 }
 .table {
-  overflow: hidden;
+  overflow: auto;
+  max-height: 20rem;
 }
 
 .workouts {
@@ -50,7 +51,6 @@
   .table {
     overflow-y: hidden;
     overflow-x: scroll;
-
   }
   .workouts {
     display: block;
@@ -71,7 +71,5 @@
   .chart2 {
     top: 7rem;
     width: auto;
-
-
   }
 }

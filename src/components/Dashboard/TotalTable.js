@@ -17,13 +17,17 @@ export default function TotalTable(props) {
   const ctx = useContext(Context);
   return (
     <TableContainer className={classes.table} component={Paper}>
-      <Table sx={{ minWidth: 350 }} aria-label="simple table">
+      <Table stickyHeader sx={{ minWidth: 350 }} aria-label="simple table">
         <TableHead>
           <TableRow>
             <Trans i18nKey={"dashboardTable"}>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
-              <TableCell></TableCell>
+              <TableCell
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                  backgroundColor: "#1976D2",
+                }}
+              ></TableCell>
             </Trans>
           </TableRow>
           {ctx.workouts.length === 0 && (

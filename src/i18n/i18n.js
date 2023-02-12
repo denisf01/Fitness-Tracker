@@ -15,9 +15,9 @@ i18next
           join: "Join us now!",
           login: "Login/Register",
           dashboardTable:
-            "<0>Exercise</0>" +
-            "              <1>Total workouts</1>" +
-            "              <2>Total time(h)</2>",
+            "<0>Workout name</0>" +
+            "              <0>Number of sets</0>" +
+            "              <0>Total time(h)</0>",
           empty: "No records",
           exerciseName: "Exercise name",
           workoutName: "Workout name",
@@ -88,8 +88,8 @@ i18next
           join: "Pridružite nam se odma!",
           login: "Prijava/Registracija",
           dashboardTable:
-            "<0>Vježba</0>\n" +
-            "              <0>Ukupan broj treninga</0>\n" +
+            "<0>Ime treninga</0>\n" +
+            "              <0>Ukupan broj serija</0>\n" +
             "              <0>Ukupno vrijeme(h)</0>",
           empty: "Nema podataka",
           exerciseName: "Ime vježbe",

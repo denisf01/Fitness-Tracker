@@ -50,7 +50,6 @@ export default function SignInSide() {
         returnSecureToken: true,
       })
       .then(function (response) {
-
         setError(null);
 
         if (!isLogin) {
@@ -151,7 +150,12 @@ export default function SignInSide() {
                       ? !isLogin
                       : true) && (
                       <TextField
-                        error={!!errors[`${input.id}`]}
+                        error={
+                          !!errors[`${input.id}`] ||
+                          (input.id === "repassword" &&
+                            !!error &&
+                            error.type === "password")
+                        }
                         helperText={
                           errors[`${input.id}`] === undefined
                             ? ""

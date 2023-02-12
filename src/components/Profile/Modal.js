@@ -85,7 +85,10 @@ export default function FormDialog(props) {
             {changePassword.map((input) => {
               return (
                 <TextField
-                  error={!!errors[`${input.id}`]}
+                  error={
+                    !!errors[`${input.id}`] ||
+                    (input.id === "repassword" && !!error)
+                  }
                   helperText={
                     errors[`${input.id}`] === undefined ? "" : input.helperText
                   }
