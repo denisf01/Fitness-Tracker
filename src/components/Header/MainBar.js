@@ -18,6 +18,7 @@ import Context from "../../store/context";
 import ButtonGroup from "@mui/material/ButtonGroup";
 import { lngs } from "../../constants/lngs";
 import { useTranslation } from "react-i18next";
+import { mainBarInputs } from "../../constants/mainBarInputs";
 
 function MainBar() {
   const { t, i18n } = useTranslation();
@@ -67,6 +68,11 @@ function MainBar() {
   const dashboardHandler = () => {
     history.push("/dashboard");
     setAnchorElNav(null);
+  };
+  const functions = {
+    exercisesHandler,
+    workoutsHandler,
+    dashboardHandler,
   };
 
   return (
@@ -123,26 +129,17 @@ function MainBar() {
                 display: { xs: "block", md: "none" },
               }}
             >
-              {ctx.isLoggedIn && [
-                <MenuItem
-                  key={Math.random().toString()}
-                  onClick={exercisesHandler}
-                >
-                  <Typography textAlign="center">{t("exercises")}</Typography>
-                </MenuItem>,
-                <MenuItem
-                  key={Math.random().toString()}
-                  onClick={workoutsHandler}
-                >
-                  <Typography textAlign="center">{t("workouts")}</Typography>
-                </MenuItem>,
-                <MenuItem
-                  key={Math.random().toString()}
-                  onClick={dashboardHandler}
-                >
-                  <Typography textAlign="center">{t("dashboard")}</Typography>
-                </MenuItem>,
-              ]}
+              {ctx.isLoggedIn &&
+                mainBarInputs.map((el) => {
+                  return (
+                    <MenuItem
+                      key={Math.random().toString()}
+                      onClick={functions[el.handler]}
+                    >
+                      <Typography textAlign="center">{t(el.id)}</Typography>
+                    </MenuItem>
+                  );
+                })}
               <MenuItem key={Math.random().toString()}>
                 <ButtonGroup
                   orientation="vertical"
@@ -190,24 +187,16 @@ function MainBar() {
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
             {ctx.isLoggedIn && (
               <React.Fragment>
-                <Button
-                  onClick={exercisesHandler}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {t("exercises")}
-                </Button>
-                <Button
-                  onClick={workoutsHandler}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {t("workouts")}
-                </Button>
-                <Button
-                  onClick={dashboardHandler}
-                  sx={{ my: 2, color: "white", display: "block" }}
-                >
-                  {t("dashboard")}
-                </Button>
+                {mainBarInputs.map((el) => {
+                  return (
+                    <Button
+                      sx={{ my: 2, color: "white", display: "block" }}
+                      onClick={functions[el.handler]}
+                    >
+                      {t(el.id)}
+                    </Button>
+                  );
+                })}
               </React.Fragment>
             )}
           </Box>
