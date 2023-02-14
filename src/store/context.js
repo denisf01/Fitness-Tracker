@@ -140,11 +140,13 @@ export const ContextProvider = (props) => {
       .get(users_url + userId + ".json")
       .then(function (response) {
         // handle success
-        setUser({
-          firstName: response.data.FirstName,
-          lastName: response.data.LastName,
-          email: response.data.email,
-        });
+        if (!!response.data) {
+          setUser({
+            firstName: response.data.FirstName,
+            lastName: response.data.LastName,
+            email: response.data.email,
+          });
+        }
       })
       .catch(function (error) {
         // handle error
