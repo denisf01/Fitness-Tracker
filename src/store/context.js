@@ -64,96 +64,6 @@ export const ContextProvider = (props) => {
   });
   const [weightData, setWeightData] = useState([]);
 
-  useEffect(() => {
-    axios
-      .get(users_url + userId + "/exercises.json")
-      .then(function (response) {
-        // handle success
-        if (!!response.data) {
-          const initialExercises = Object.keys(response.data).map((id) => {
-            return { id, name: response.data[id].name };
-          });
-
-          setExercises(initialExercises);
-        }
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-    axios
-      .get(users_url + userId + "/weightData.json")
-      .then(function (response) {
-        // handle success
-        if (!!response.data) {
-          const initialWeightData = Object.keys(response.data).map((id) => {
-            return {
-              id,
-              date: response.data[id].date,
-              weight: response.data[id].weight,
-            };
-          });
-
-          setWeightData(initialWeightData.sort(sortDates));
-        }
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-    axios
-      .get(users_url + userId + "/workouts.json")
-      .then(function (response) {
-        // handle success
-        if (!!response.data) {
-          const initialWorkouts = Object.keys(response.data).map((id) => {
-            const details = response.data[id].details;
-            let detailsArray;
-            if (!!details)
-              detailsArray = Object.keys(response.data[id].details);
-            else detailsArray = [];
-
-            return {
-              id,
-              name: response.data[id].name,
-              details: detailsArray.map((id2) => {
-                return {
-                  id: id2,
-                  exerciseName: response.data[id].details[id2].exerciseName,
-                  time: response.data[id].details[id2].time,
-                  weight: +response.data[id].details[id2].weight,
-                  reps: +response.data[id].details[id2].reps,
-                  rpe: +response.data[id].details[id2].rpe,
-                };
-              }),
-            };
-          });
-
-          setWorkouts(initialWorkouts);
-        }
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-    axios
-      .get(users_url + userId + ".json")
-      .then(function (response) {
-        // handle success
-        if (!!response.data) {
-          setUser({
-            firstName: response.data.FirstName,
-            lastName: response.data.LastName,
-            email: response.data.email,
-          });
-        }
-      })
-      .catch(function (error) {
-        // handle error
-        console.log(error);
-      });
-  }, [userId]);
-
   let initialToken;
   if (tokenData) {
     initialToken = tokenData.token;
@@ -163,6 +73,98 @@ export const ContextProvider = (props) => {
   const [id, setId] = useState(!!userId ? userId : null);
   const [isLoggedOut, setIsLoggedOut] = useState(false);
   const isLoggedIn = !!token;
+
+  useEffect(() => {
+    if (!!isLoggedIn) {
+      axios
+        .get(users_url + userId + "/exercises.json")
+        .then(function (response) {
+          // handle success
+          if (!!response.data) {
+            const initialExercises = Object.keys(response.data).map((id) => {
+              return { id, name: response.data[id].name };
+            });
+
+            setExercises(initialExercises);
+          }
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+      axios
+        .get(users_url + userId + "/weightData.json")
+        .then(function (response) {
+          // handle success
+          if (!!response.data) {
+            const initialWeightData = Object.keys(response.data).map((id) => {
+              return {
+                id,
+                date: response.data[id].date,
+                weight: response.data[id].weight,
+              };
+            });
+
+            setWeightData(initialWeightData.sort(sortDates));
+          }
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+      axios
+        .get(users_url + userId + "/workouts.json")
+        .then(function (response) {
+          // handle success
+          if (!!response.data) {
+            const initialWorkouts = Object.keys(response.data).map((id) => {
+              const details = response.data[id].details;
+              let detailsArray;
+              if (!!details)
+                detailsArray = Object.keys(response.data[id].details);
+              else detailsArray = [];
+
+              return {
+                id,
+                name: response.data[id].name,
+                details: detailsArray.map((id2) => {
+                  return {
+                    id: id2,
+                    exerciseName: response.data[id].details[id2].exerciseName,
+                    time: response.data[id].details[id2].time,
+                    weight: +response.data[id].details[id2].weight,
+                    reps: +response.data[id].details[id2].reps,
+                    rpe: +response.data[id].details[id2].rpe,
+                  };
+                }),
+              };
+            });
+
+            setWorkouts(initialWorkouts);
+          }
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+      axios
+        .get(users_url + userId + ".json")
+        .then(function (response) {
+          // handle success
+          if (!!response.data) {
+            setUser({
+              firstName: response.data.FirstName,
+              lastName: response.data.LastName,
+              email: response.data.email,
+            });
+          }
+        })
+        .catch(function (error) {
+          // handle error
+          console.log(error);
+        });
+    }
+  }, [userId, isLoggedIn]);
 
   const addExerciseHandler = (name) => {
     const id = (Math.random() + 1).toString(36).substring(7);
