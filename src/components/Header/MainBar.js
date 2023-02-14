@@ -190,6 +190,7 @@ function MainBar() {
                 {mainBarInputs.map((el) => {
                   return (
                     <Button
+                      key={Math.random().toString()}
                       sx={{ my: 2, color: "white", display: "block" }}
                       onClick={functions[el.handler]}
                     >

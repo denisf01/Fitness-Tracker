@@ -30,14 +30,14 @@ export default function TotalTable(props) {
               ></TableCell>
             </Trans>
           </TableRow>
-          {ctx.workouts.length === 0 && (
-            <React.Fragment>
-              <TableCell />
-              <TableCell align={"center"}>{t("empty")}</TableCell>
-            </React.Fragment>
-          )}
         </TableHead>
         <TableBody>
+          {ctx.workouts.length === 0 && (
+            <TableRow>
+              <TableCell />
+              <TableCell align={"center"}>{t("empty")}</TableCell>
+            </TableRow>
+          )}
           {props.data.map((row) => (
             <TableRow
               key={row.id}

@@ -1,10 +1,9 @@
 import classes from "./Profile.module.css";
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import { Typography } from "@mui/material";
 import CircularProgress from "@mui/material/CircularProgress";
 import Box from "@mui/material/Box";
 import Context from "../../store/context";
-import axios from "axios";
 import Avatar from "@mui/material/Avatar";
 import { deepOrange } from "@mui/material/colors";
 import { profileInputs } from "../../constants/profileInputs";
@@ -16,28 +15,6 @@ const Profile = (props) => {
   const [open, setOpen] = useState(false);
   const { t } = useTranslation();
   const ctx = useContext(Context);
-  // const [data, setData] = useState({
-  //   firstName: t("loading"),
-  //   lastName: t("loading"),
-  //   email: t("loading"),
-  // });
-
-  // const fetchUserData = useCallback(async () => {
-  //   setLoading(true);
-  //   try {
-  //     const response = await axios.get(`${users_url}${ctx.id}.json`);
-  //     setData({
-  //       firstName: response.data.FirstName,
-  //       lastName: response.data.LastName,
-  //       email: response.data.email,
-  //     });
-  //   } catch (error) {}
-  //   setLoading(false);
-  // }, [ctx.id]);
-  //
-  // useEffect(() => {
-  //   fetchUserData();
-  // }, [fetchUserData]);
 
   const context1 = (
     <Box className={classes.loading} sx={{ display: "flex" }}>
@@ -56,7 +33,7 @@ const Profile = (props) => {
             component="h5"
             key={Math.random().toString()}
           >
-            {input.title + ":" + " " + ctx.user[input.id]}
+            {input.title + ": " + ctx.user[input.id]}
           </Typography>
         );
       })}
@@ -82,7 +59,6 @@ const Profile = (props) => {
         <ProfileCard>
           <div className={classes.icon}>
             <Avatar
-              // src="https://sm.ign.com/ign_nordic/cover/a/avatar-gen/avatar-generations_prsz.jpg"
               sx={{ width: 56, height: 56, bgcolor: deepOrange[500] }}
             ></Avatar>
           </div>

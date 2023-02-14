@@ -5,7 +5,6 @@ import * as React from "react";
 import WorkoutsPage from "../pages/WorkoutsPage";
 import DashboardPage from "../pages/DashboardPage";
 import WorkoutDetailsPage from "../pages/WorkoutDetailsPage";
-import LandingPage from "../pages/LandingPage";
 
 export const pages = [
   {

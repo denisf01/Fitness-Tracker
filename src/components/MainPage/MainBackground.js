@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 
 
 const MainBackground = (props) => {
-  const { t, i18n } = useTranslation();
+  const { t } = useTranslation();
   const ctx = useContext(Context);
   const history = useHistory();
   const loginHandler = () => {

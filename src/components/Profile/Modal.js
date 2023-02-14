@@ -13,7 +13,7 @@ import { passwordChange_url } from "../../constants/url";
 import axios from "axios";
 import Context from "../../store/context";
 import CustomizedAlert from "../Alert/Alert";
-import { changePassword, loginInputs } from "../../constants/loginInputs";
+import { changePassword } from "../../constants/loginInputs";
 import Typography from "@mui/material/Typography";
 import { useTranslation } from "react-i18next";
 export default function FormDialog(props) {

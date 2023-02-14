@@ -63,20 +63,19 @@ export const ContextProvider = (props) => {
     email: null,
   });
   const [weightData, setWeightData] = useState([]);
-  let initialExercises;
-  let initialWorkouts;
-  let initialWeightData;
+
   useEffect(() => {
     axios
       .get(users_url + userId + "/exercises.json")
       .then(function (response) {
         // handle success
+        if (!!response.data) {
+          const initialExercises = Object.keys(response.data).map((id) => {
+            return { id, name: response.data[id].name };
+          });
 
-        initialExercises = Object.keys(response.data).map((id) => {
-          return { id, name: response.data[id].name };
-        });
-
-        setExercises(initialExercises);
+          setExercises(initialExercises);
+        }
       })
       .catch(function (error) {
         // handle error
@@ -86,16 +85,17 @@ export const ContextProvider = (props) => {
       .get(users_url + userId + "/weightData.json")
       .then(function (response) {
         // handle success
+        if (!!response.data) {
+          const initialWeightData = Object.keys(response.data).map((id) => {
+            return {
+              id,
+              date: response.data[id].date,
+              weight: response.data[id].weight,
+            };
+          });
 
-        initialWeightData = Object.keys(response.data).map((id) => {
-          return {
-            id,
-            date: response.data[id].date,
-            weight: response.data[id].weight,
-          };
-        });
-
-        setWeightData(initialWeightData.sort(sortDates));
+          setWeightData(initialWeightData.sort(sortDates));
+        }
       })
       .catch(function (error) {
         // handle error
@@ -105,29 +105,32 @@ export const ContextProvider = (props) => {
       .get(users_url + userId + "/workouts.json")
       .then(function (response) {
         // handle success
-        initialWorkouts = Object.keys(response.data).map((id) => {
-          const details = response.data[id].details;
-          let detailsArray;
-          if (!!details) detailsArray = Object.keys(response.data[id].details);
-          else detailsArray = [];
+        if (!!response.data) {
+          const initialWorkouts = Object.keys(response.data).map((id) => {
+            const details = response.data[id].details;
+            let detailsArray;
+            if (!!details)
+              detailsArray = Object.keys(response.data[id].details);
+            else detailsArray = [];
 
-          return {
-            id,
-            name: response.data[id].name,
-            details: detailsArray.map((id2) => {
-              return {
-                id: id2,
-                exerciseName: response.data[id].details[id2].exerciseName,
-                time: response.data[id].details[id2].time,
-                weight: +response.data[id].details[id2].weight,
-                reps: +response.data[id].details[id2].reps,
-                rpe: +response.data[id].details[id2].rpe,
-              };
-            }),
-          };
-        });
+            return {
+              id,
+              name: response.data[id].name,
+              details: detailsArray.map((id2) => {
+                return {
+                  id: id2,
+                  exerciseName: response.data[id].details[id2].exerciseName,
+                  time: response.data[id].details[id2].time,
+                  weight: +response.data[id].details[id2].weight,
+                  reps: +response.data[id].details[id2].reps,
+                  rpe: +response.data[id].details[id2].rpe,
+                };
+              }),
+            };
+          });
 
-        setWorkouts(initialWorkouts);
+          setWorkouts(initialWorkouts);
+        }
       })
       .catch(function (error) {
         // handle error
@@ -214,17 +217,6 @@ export const ContextProvider = (props) => {
 
     const id = (Math.random() + 1).toString(36).substring(7);
     setWorkouts((prevState) => {
-      // return [
-      //   {
-      //     id,
-      //     name: data.exercise,
-      //     time: data.time,
-      //     weight: +data.weight,
-      //     reps: +data.reps,
-      //     rpe: +data.rpe,
-      //   },
-      //   ...prevState,
-      // ];
       const index = prevState.findIndex((el) => el.id === parentId);
       prevState[index].details = [
         ...prevState[index].details,
@@ -263,13 +255,6 @@ export const ContextProvider = (props) => {
     axios.delete(users_url + userId + `/weightData/${id}.json`);
   };
 
-  // const deleteWorkoutHandler = (ids) => {
-  //   const newWorkouts = workouts.filter((workout) => !ids.includes(workout.id));
-  //   setWorkouts(newWorkouts);
-  //   for (const id of ids) {
-  //     axios.delete(users_url + userId + `/workouts/${id}.json`);
-  //   }
-  // };
   const deleteWorkoutHandler = (id) => {
     const newWorkouts = workouts.filter((workout) => workout.id !== id);
     setWorkouts(newWorkouts);
@@ -292,9 +277,11 @@ export const ContextProvider = (props) => {
     }
   };
   const editExerciseHandler = (id, input) => {
+    // let oldName;
     setExercises((prevState) => {
       let newState = [...prevState];
       const index = newState.findIndex((exercise) => exercise.id === id);
+      // oldName = newState[index].name;
       newState[index].name = input;
       return newState;
     });

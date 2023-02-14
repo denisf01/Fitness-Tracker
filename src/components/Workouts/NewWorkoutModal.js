@@ -7,7 +7,7 @@ import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogTitle from "@mui/material/DialogTitle";
-import { useRef, useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import Context from "../../store/context";
 import Select from "@mui/material/Select";
 import MenuItem from "@mui/material/MenuItem";
@@ -74,8 +74,6 @@ export default function NewWorkoutModal(props) {
     ctx.addWorkoutDetail(params.workoutId, data);
     reset();
     props.close();
-    // props.onSubmit();
-    // props.close();
   };
   return (
     <div>

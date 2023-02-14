@@ -1,7 +1,6 @@
 import classes from "./Workouts.module.css";
 import React, { useContext } from "react";
 import DeleteIcon from "@mui/icons-material/Delete";
-import EditIcon from "@mui/icons-material/Edit";
 import Button from "@mui/material/Button";
 import Context from "../../store/context";
 import { useHistory } from "react-router-dom";
