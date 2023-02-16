@@ -2,6 +2,10 @@ import React, { useCallback, useEffect, useState } from "react";
 import axios from "axios";
 import { users_url } from "../constants/url";
 import { sortDates } from "../constants/functions";
+import {
+  calculateRemainingTime,
+  retrieveStoredToken,
+} from "../constants/functions";
 
 let logoutTimer;
 
@@ -26,31 +30,6 @@ const Context = React.createContext({
   deleteWorkout: (id) => {},
   deleteWorkoutDetail: (parentId, id) => {},
 });
-
-const calculateRemainingTime = (expirationTime) => {
-  const currentTime = new Date().getTime();
-  const adjExpirationTime = new Date(expirationTime).getTime();
-
-  return adjExpirationTime - currentTime;
-};
-
-const retrieveStoredToken = () => {
-  const storedToken = localStorage.getItem("tokenId");
-  const storedExpirationDate = localStorage.getItem("expirationTime");
-
-  const remainingTime = calculateRemainingTime(storedExpirationDate);
-
-  if (remainingTime <= 3600) {
-    localStorage.removeItem("tokenId");
-    localStorage.removeItem("expirationTime");
-    return null;
-  }
-
-  return {
-    token: storedToken,
-    duration: remainingTime,
-  };
-};
 
 export const ContextProvider = (props) => {
   const tokenData = retrieveStoredToken();

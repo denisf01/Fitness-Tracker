@@ -57,22 +57,20 @@ function MainBar() {
     history.replace("/profile");
     setAnchorElUser(null);
   };
-  const exercisesHandler = () => {
-    history.push("/exercises");
-    setAnchorElNav(null);
-  };
-  const workoutsHandler = () => {
-    history.push("/workouts");
-    setAnchorElNav(null);
-  };
-  const dashboardHandler = () => {
-    history.push("/dashboard");
-    setAnchorElNav(null);
-  };
+
   const functions = {
-    exercisesHandler,
-    workoutsHandler,
-    dashboardHandler,
+    exercisesHandler: () => {
+      history.push("/exercises");
+      setAnchorElNav(null);
+    },
+    workoutsHandler: () => {
+      history.push("/workouts");
+      setAnchorElNav(null);
+    },
+    dashboardHandler: () => {
+      history.push("/dashboard");
+      setAnchorElNav(null);
+    },
   };
 
   return (
