@@ -85,7 +85,7 @@ i18next
         translation: {
           welcome: "Dobrodošli na stranicu!",
           track: "Pratite sve vrste sportskih aktivnosti",
-          join: "Pridružite nam se odma!",
+          join: "Pridružite nam se odmah!",
           login: "Prijava/Registracija",
           dashboardTable:
             "<0>Ime treninga</0>\n" +
