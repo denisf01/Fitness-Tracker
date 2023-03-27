@@ -178,7 +178,7 @@ function MainBar() {
               textDecoration: "none",
             }}
           >
-            Fitness Trackerr
+            Fitness Tracker
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
