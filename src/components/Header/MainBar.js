@@ -82,7 +82,6 @@ function MainBar() {
           <Typography
             onClick={logoClickHandler}
             variant="h6"
-            noWrap
             component="a"
             href="/"
             sx={{
@@ -165,7 +164,7 @@ function MainBar() {
           <Typography
             onClick={logoClickHandler}
             variant="h5"
-            noWrap
+            textAlign={"center"}
             component="a"
             href=""
             sx={{
@@ -179,7 +178,7 @@ function MainBar() {
               textDecoration: "none",
             }}
           >
-            Fitness Tracker
+            Fitness Trackerr
           </Typography>
 
           <Box sx={{ flexGrow: 1, display: { xs: "none", md: "flex" } }}>
